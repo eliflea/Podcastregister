@@ -50,7 +50,11 @@ namespace podcast_grupp18
 
         private void läggTillKategori_Click_1(object sender, EventArgs e)
         {
+
+
             listBoxKategori.Items.Add(kategoriTextBox.Text);
+
+            comboBox2.Items.Add(kategoriTextBox.Text);
 
             kategoriTextBox.Clear();
 
@@ -58,7 +62,23 @@ namespace podcast_grupp18
 
         private void taBortKategori_Click(object sender, EventArgs e)
         {
-            listBoxKategori.Items.Remove(listBoxKategori.SelectedItem);
+
+            if (listBoxKategori.SelectedItem != null)
+
+            {
+                string valdKategori = listBoxKategori.SelectedItem.ToString();
+
+                listBoxKategori.Items.Remove(valdKategori);
+
+                comboBox2.Items.Remove(valdKategori);
+
+                kategoriTextBox.Clear();
+            }
+            
+             else
+            {
+                MessageBox.Show("Vänligen välj en kategori att ta bort.");
+            }
         }
 
         private void ändraKategori_Click(object sender, EventArgs e)
@@ -71,6 +91,8 @@ namespace podcast_grupp18
 
                 // Uppdatera den valda kategorin med texten från kategoriTextBox
                 listBoxKategori.Items[selectedIndex] = kategoriTextBox.Text;
+
+                comboBox2.Items[selectedIndex] = kategoriTextBox.Text;
 
                 // Rensa textboxen om du vill
                 kategoriTextBox.Clear();
@@ -87,6 +109,11 @@ namespace podcast_grupp18
             {
                 kategoriTextBox.Text = listBoxKategori.SelectedItem.ToString();
             }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
