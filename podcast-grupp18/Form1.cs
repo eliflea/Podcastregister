@@ -77,14 +77,24 @@ namespace podcast_grupp18
             {
                 string valdKategori = listBoxKategori.SelectedItem.ToString();
 
-                listBoxKategori.Items.Remove(valdKategori);
+                // Bekräfta raderingen
+                DialogResult result = MessageBox.Show(
+                    $"Är du säker på att du vill ta bort kategorin '{valdKategori}'?",
+                    "Bekräfta borttagning",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
 
-                comboBox2.Items.Remove(valdKategori);
+                // Om användaren klickar på "Ja"
+                if (result == DialogResult.Yes)
+                {
+                    listBoxKategori.Items.Remove(valdKategori);
 
-                kategoriTextBox.Clear();
+                    comboBox2.Items.Remove(valdKategori);
+
+                    kategoriTextBox.Clear();
+                }
             }
-            
-             else
+            else
             {
                 MessageBox.Show("Vänligen välj en kategori att ta bort.");
             }
