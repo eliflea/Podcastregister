@@ -51,12 +51,21 @@ namespace podcast_grupp18
         private void läggTillKategori_Click_1(object sender, EventArgs e)
         {
 
+            if (!string.IsNullOrWhiteSpace(kategoriTextBox.Text))
 
-            listBoxKategori.Items.Add(kategoriTextBox.Text);
+            { 
+             listBoxKategori.Items.Add(kategoriTextBox.Text);
 
             comboBox2.Items.Add(kategoriTextBox.Text);
 
             kategoriTextBox.Clear();
+
+            }
+
+            else
+            {
+                MessageBox.Show("Vänligen ange en kategori.");
+            }
 
         }
 
