@@ -2,7 +2,7 @@
 {
     public class Podcast
     {
-        public List<Avsnitt> AvsnittLista { get; set; } // podcast-titlar
+        private List<Avsnitt> AvsnittLista { get; set; } // podcast-titlar
         public string Namn { get; set; } // podcastnamn
         public string URL { get; set; } // Podcast URL
 
@@ -29,6 +29,10 @@
         {
             var episode = AvsnittLista.FirstOrDefault(e => e.Titel == titel);
             return episode?.URL;
+        }
+        public IReadOnlyList<Avsnitt> HamtaAvsnitt()
+        {
+            return AvsnittLista.AsReadOnly();
         }
     }
 }

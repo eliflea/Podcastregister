@@ -49,8 +49,8 @@ namespace podcast_grupp18
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        //Lägger till podcastflöde
+        private async void button1_Click(object sender, EventArgs e)
+        //Lägger till podcastflöde (ansykront anrop)
         {
             string url = txtURL.Text.Trim();
 
@@ -61,15 +61,15 @@ namespace podcast_grupp18
             }
             try
             {
-                Podcast podcast = podcastController.HamtaPodcastFranRSS(url);
-                if (podcast == null || !podcast.AvsnittLista.Any())
+                Podcast podcast = await podcastController.HamtaPodcastFranRSSAsync(url);
+                if (podcast == null || !podcast.HamtaAvsnitt().Any())
                 {
                     MessageBox.Show("Podcasten kunde ej hittas!");
                     return;
                 }
 
                 // podcastnamn och antal avsnitt
-                int antalAvsnitt = podcast.AvsnittLista.Count;
+                int antalAvsnitt = podcast.HamtaAvsnitt().Count;
                 ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
                 podcastItem.SubItems.Add(string.Empty);  // 2 KOLUMN för framtida använde
                 podcastItem.SubItems.Add(podcast.Namn);
