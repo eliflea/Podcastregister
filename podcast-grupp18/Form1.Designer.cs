@@ -346,7 +346,7 @@ namespace podcast_grupp18
             Controls.Add(comboBox1);
             Controls.Add(label1);
             Controls.Add(textBox1);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.Sizable;
             Margin = new Padding(4, 5, 4, 5);
             Name = "Form1";
             Text = "Form1";
