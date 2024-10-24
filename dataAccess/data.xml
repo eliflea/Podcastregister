@@ -1,16 +1,3 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
-	<channel>
-		<title>XML Example</title>
-		<description>XML Example</description>
-		<link>https://sverigesradio.se/avsnitt/giftattacken-i-salisbury</link>
-		<item>
-			<title>John</title>
-			<description>25</description>
-		</item>
-		<item>
-			<title>Smith</title>
-			<description>30</description>
-		</item>
-	</channel>
 </rss>

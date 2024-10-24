@@ -1,11 +1,20 @@
-﻿namespace models
+﻿using System.Xml.Serialization;
+
+namespace models
 {
     public class Podcast
     {
-        private List<Avsnitt> AvsnittLista { get; set; } // podcast-titlar
+        [XmlArray("AvsnittLista")]
+        [XmlArrayItem("Avsnitt")]
+        public List<Avsnitt> AvsnittLista { get; set; } // podcast-titlar
+        
         public string Namn { get; set; } // podcastnamn
         public string URL { get; set; } // Podcast URL
 
+        public Podcast() // För XML-seralisering
+        {
+            AvsnittLista = new List<Avsnitt>();
+        }
         public Podcast(string namn, string url)
         {
             Namn = namn;

@@ -13,10 +13,12 @@ namespace podcast_grupp18
         {
             InitializeComponent();
             this.Load += new System.EventHandler(KolumnRader);
+            this.Load += new System.EventHandler(Form1_Load);
             lvwPodcastDetaljer.SelectedIndexChanged += lvwPodcastDetaljer_SelectedIndexChanged;
             podcastController = new PodcastController();
             podcastRepository = new PodcastRepository();
         }
+
 
         private void KolumnRader(object sender, EventArgs e)
         {
@@ -32,6 +34,24 @@ namespace podcast_grupp18
 
             //för avsnitt
             lvwAvsnitt.Columns.Add("Avsnitt", lvwAvsnitt.ClientSize.Width);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            LoadPodcasts();
+        }
+        private void LoadPodcasts()
+        {
+            var podcasts = podcastRepository.HamtaAllaPodcast();
+            foreach (var podcast in podcasts)
+            {
+                int antalAvsnitt = podcast.HamtaAvsnitt().Count;
+                ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
+                podcastItem.SubItems.Add(string.Empty);  // 2 KOLUMN för framtida använde
+                podcastItem.SubItems.Add(podcast.Namn);
+                podcastItem.Tag = podcast; //lägger podcasten i en tag... används för att kunna se specifika avsnitt
+                lvwPodcastDetaljer.Items.Add(podcastItem);
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -77,6 +97,8 @@ namespace podcast_grupp18
                 podcastItem.Tag = podcast; //lägger podcasten i en tag... används för att kunna se specifika avsnitt
                 lvwPodcastDetaljer.Items.Add(podcastItem);
                 txtURL.Clear();
+
+                podcastRepository.LaggTillPodcast(podcast); //sparar podcast t repository
             }
             catch (Exception ex)
             {

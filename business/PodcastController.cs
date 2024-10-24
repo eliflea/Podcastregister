@@ -49,7 +49,11 @@ namespace business
                     throw new Exception("Kunde ej hämta podcast!", ex);
 
                 }
-            
+        }
+
+        public List<Podcast> HamtaAllaPodcast()
+        {
+            return podcastRepository.HamtaAllaPodcast();
         }
 
         /*//Hämta och sparar podcastavsnitt från 1 RSS-flöde till repositoryn
