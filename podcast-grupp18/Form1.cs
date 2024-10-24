@@ -194,7 +194,7 @@ namespace podcast_grupp18
         }
 
         private void DisplayEpisodes(Podcast podcast)
-            //Visar avsnitt för varje podcast
+        //Visar avsnitt för varje podcast
         {
             lvwAvsnitt.Items.Clear();
 
@@ -205,13 +205,42 @@ namespace podcast_grupp18
             {
                 foreach (var avsnittTitel in avsnittTitlar)
                 {
-                    lvwAvsnitt.Items.Add(new ListViewItem(avsnittTitel)); 
+                    lvwAvsnitt.Items.Add(new ListViewItem(avsnittTitel));
                 }
             }
             else
             {
-                MessageBox.Show("Inga avsnitt hittades!"); 
+                MessageBox.Show("Inga avsnitt hittades!");
+            }
+        }
+
+        private void taBortFlode_Click(object sender, EventArgs e)
+        {
+            if (lvwPodcastDetaljer.SelectedItems.Count > 0)
+            {
+                // Hämta den valda podcasten
+                Podcast valdPodcast = lvwPodcastDetaljer.SelectedItems[0].Tag as Podcast;
+
+                // Bekräfta raderingen
+                DialogResult result = MessageBox.Show(
+                    $"Är du säker på att du vill ta bort podcasten '{valdPodcast.Namn}'?",
+                    "Bekräfta borttagning",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                // Om användaren klickar på "Ja"
+                if (result == DialogResult.Yes)
+                {
+                    lvwPodcastDetaljer.Items.Remove(lvwPodcastDetaljer.SelectedItems[0]);
+                    lvwAvsnitt.Items.Clear();
+                    MessageBox.Show($"Podcasten '{valdPodcast.Namn}' har tagits bort.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vänligen välj en podcast att ta bort.");
             }
         }
     }
 }
+
