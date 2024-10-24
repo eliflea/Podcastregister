@@ -1,6 +1,7 @@
 ﻿using business;
 using dataAccess;
 using models;
+using System.Windows.Forms;
 
 namespace podcast_grupp18
 {
@@ -208,31 +209,33 @@ namespace podcast_grupp18
                 {
                     DisplayEpisodes(valdPodcast);
                 }
-                else
-                {
-                    MessageBox.Show("Ingen avsnitt hittades!");
-                }
             }
         }
 
         private void DisplayEpisodes(Podcast podcast)
-        //Visar avsnitt för varje podcast
-        {
-            lvwAvsnitt.Items.Clear();
+        { 
+        lvwAvsnitt.Items.Clear();
 
-            // Fetchar avsnittstitlar
-            var avsnittTitlar = podcast.HamtaAvsnittTitlar();
+          // Fetch episode titles
+         var avsnittTitlar = podcast.HamtaAvsnittTitlar();
 
-            if (avsnittTitlar != null && avsnittTitlar.Any())
+            if (avsnittTitlar == null || !avsnittTitlar.Any())
             {
-                foreach (var avsnittTitel in avsnittTitlar)
+                if (lvwAvsnitt.Items.Count == 0)
                 {
-                    lvwAvsnitt.Items.Add(new ListViewItem(avsnittTitel));
+                    MessageBox.Show("Inga avsnitt hittades!");
                 }
             }
             else
-            {
-                MessageBox.Show("Inga avsnitt hittades!");
+          {
+                int avsnittNummer = 1;
+
+                foreach (var avsnittTitel in avsnittTitlar)
+             {
+                    var listViewItem = new ListViewItem($"{avsnittNummer}. {avsnittTitel}"); 
+                    lvwAvsnitt.Items.Add(listViewItem);
+                    avsnittNummer++;
+                }
             }
         }
 

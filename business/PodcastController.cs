@@ -46,9 +46,9 @@ namespace business
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Kunde ej hämta podcast!", ex);
+                    throw new Exception($"Fel vid hämtning: {ex.Message}", ex);
 
-                }
+            }
         }
 
         public List<Podcast> HamtaAllaPodcast()
