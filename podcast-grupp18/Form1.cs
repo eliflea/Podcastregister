@@ -17,6 +17,9 @@ namespace podcast_grupp18
             lvwPodcastDetaljer.SelectedIndexChanged += lvwPodcastDetaljer_SelectedIndexChanged;
             podcastController = new PodcastController();
             podcastRepository = new PodcastRepository();
+            this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
+            LaddaKategorier();
+
         }
 
 
@@ -40,6 +43,14 @@ namespace podcast_grupp18
         {
             LoadPodcasts();
         }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Spara kategorier vid stängning
+            podcastRepository.SparaKategorierTillFil(); // Anropa metoden direkt från podcastRepository
+        }
+       
+
         private void LoadPodcasts()
         {
             var podcasts = podcastRepository.HamtaAllaPodcast();
@@ -54,6 +65,16 @@ namespace podcast_grupp18
                 lvwPodcastDetaljer.Items.Add(podcastItem);
             }
         }
+        private void LaddaKategorier()
+        {
+            var kategorier = podcastRepository.HamtaAllaKategorier();
+            foreach (var kategori in kategorier)
+            {
+                listBoxKategori.Items.Add(kategori);
+                comboBox2.Items.Add(kategori);
+            }
+        }
+
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -137,23 +158,24 @@ namespace podcast_grupp18
 
         private void läggTillKategori_Click_1(object sender, EventArgs e)
         {
-
             if (!string.IsNullOrWhiteSpace(kategoriTextBox.Text))
-
             {
-                listBoxKategori.Items.Add(kategoriTextBox.Text);
-
-                comboBox2.Items.Add(kategoriTextBox.Text);
-
-                kategoriTextBox.Clear();
-
+                try
+                {
+                    podcastRepository.LaggTillKategori(kategoriTextBox.Text);
+                    listBoxKategori.Items.Add(kategoriTextBox.Text);
+                    comboBox2.Items.Add(kategoriTextBox.Text);
+                    kategoriTextBox.Clear();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
-
             else
             {
                 MessageBox.Show("Vänligen ange en kategori.");
             }
-
         }
 
         private void taBortKategori_Click(object sender, EventArgs e)
@@ -174,11 +196,16 @@ namespace podcast_grupp18
                 // Om användaren klickar på "Ja"
                 if (result == DialogResult.Yes)
                 {
-                    listBoxKategori.Items.Remove(valdKategori);
-
-                    comboBox2.Items.Remove(valdKategori);
-
-                    kategoriTextBox.Clear();
+                    try
+                    {
+                        podcastRepository.TaBortKategori(valdKategori);
+                        listBoxKategori.Items.Remove(valdKategori);
+                        comboBox2.Items.Remove(valdKategori);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
             }
             else
@@ -196,11 +223,30 @@ namespace podcast_grupp18
                 int selectedIndex = listBoxKategori.SelectedIndex;
 
                 // Uppdatera den valda kategorin med texten från kategoriTextBox
-                listBoxKategori.Items[selectedIndex] = kategoriTextBox.Text;
+                string nyKategori = kategoriTextBox.Text.Trim();
 
-                comboBox2.Items[selectedIndex] = kategoriTextBox.Text;
+                if (string.IsNullOrWhiteSpace(nyKategori))
+                {
+                    MessageBox.Show("Vänligen ange en giltig kategori.");
+                    return;
+                }
 
-                // Rensa textboxen om du vill
+                // Anropa metoden i PodcastRepository för att ändra kategorin
+                try
+                {
+                    podcastRepository.AndraKategori(selectedIndex, nyKategori); // Uppdatera kategorin
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ett fel uppstod: {ex.Message}", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Uppdatera listan
+                listBoxKategori.Items[selectedIndex] = nyKategori;
+                comboBox2.Items[selectedIndex] = nyKategori;
+
+                // Rensa textboxen
                 kategoriTextBox.Clear();
             }
             else
@@ -284,9 +330,17 @@ namespace podcast_grupp18
                 // Om användaren klickar på "Ja"
                 if (result == DialogResult.Yes)
                 {
-                    lvwPodcastDetaljer.Items.Remove(lvwPodcastDetaljer.SelectedItems[0]);
-                    lvwAvsnitt.Items.Clear();
-                    MessageBox.Show($"Podcasten '{valdPodcast.Namn}' har tagits bort.");
+                    try
+                    {
+                        podcastRepository.TaBortPodcast(valdPodcast); // Ta bort podcasten från repository
+                        lvwPodcastDetaljer.Items.Remove(lvwPodcastDetaljer.SelectedItems[0]); // Ta bort från ListView
+                        lvwAvsnitt.Items.Clear(); // Rensa avsnitt
+                        MessageBox.Show($"Podcasten '{valdPodcast.Namn}' har tagits bort.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ett fel uppstod: {ex.Message}", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             else
