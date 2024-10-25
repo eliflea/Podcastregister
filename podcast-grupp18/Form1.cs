@@ -20,6 +20,9 @@ namespace podcast_grupp18
             this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
             LaddaKategorier();
 
+            filtreraKategori.SelectedIndexChanged += filtreraKategori_SelectedIndexChanged;
+
+
         }
 
 
@@ -72,6 +75,7 @@ namespace podcast_grupp18
             {
                 listBoxKategori.Items.Add(kategori);
                 comboBox2.Items.Add(kategori);
+                filtreraKategori.Items.Add(kategori);
             }
         }
 
@@ -165,6 +169,7 @@ namespace podcast_grupp18
                     podcastRepository.LaggTillKategori(kategoriTextBox.Text);
                     listBoxKategori.Items.Add(kategoriTextBox.Text);
                     comboBox2.Items.Add(kategoriTextBox.Text);
+                    filtreraKategori.Items.Add(kategoriTextBox.Text);
                     kategoriTextBox.Clear();
                 }
                 catch (Exception ex)
@@ -201,6 +206,8 @@ namespace podcast_grupp18
                         podcastRepository.TaBortKategori(valdKategori);
                         listBoxKategori.Items.Remove(valdKategori);
                         comboBox2.Items.Remove(valdKategori);
+                        filtreraKategori.Items.Remove(valdKategori);
+
                     }
                     catch (Exception ex)
                     {
@@ -245,6 +252,7 @@ namespace podcast_grupp18
                 // Uppdatera listan
                 listBoxKategori.Items[selectedIndex] = nyKategori;
                 comboBox2.Items[selectedIndex] = nyKategori;
+                filtreraKategori.Items[selectedIndex] = nyKategori;
 
                 // Rensa textboxen
                 kategoriTextBox.Clear();
@@ -372,7 +380,7 @@ namespace podcast_grupp18
             }
         }
 
-        private void btnAterstall_Click(object sender, EventArgs e)
+        private void btnSpara_Click(object sender, EventArgs e)
         {
             if (lvwPodcastDetaljer.SelectedItems.Count > 0)
             {
@@ -403,7 +411,45 @@ namespace podcast_grupp18
             {
                 MessageBox.Show("Vänligen välj en podcast att spara ändringar för.");
             }
+
         }
+
+        private void filtreraKategori_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string valdKategori = filtreraKategori.SelectedItem?.ToString();
+            FiltreraPodcaster(valdKategori);
+        }
+
+        private void FiltreraPodcaster(string kategori)
+        {
+            lvwPodcastDetaljer.Items.Clear(); // Tömmer ListView
+
+            var podcasts = podcastRepository.HamtaAllaPodcast();
+
+            foreach (var podcast in podcasts)
+            {
+                if (string.IsNullOrEmpty(kategori) || podcast.Kategori == kategori)
+                {
+                    int antalAvsnitt = podcast.HamtaAvsnitt().Count;
+                    ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
+                    podcastItem.SubItems.Add(podcast.Namn);
+                    podcastItem.SubItems.Add(podcast.Titel ?? "Ingen titel");
+                    podcastItem.SubItems.Add("Frekvens"); // Lägg till om du har frekvens
+                    podcastItem.SubItems.Add(podcast.Kategori);
+                    podcastItem.Tag = podcast;
+
+                    lvwPodcastDetaljer.Items.Add(podcastItem);
+                }
+            }
+        }
+        private void btnAterstall_Click(object sender, EventArgs e)
+        {
+            filtreraKategori.SelectedIndex = -1; // Avmarkera vald kategori i comboBox
+
+            // Ladda om alla podcasts
+            LoadPodcasts();
+        }
+
     }
 
 }

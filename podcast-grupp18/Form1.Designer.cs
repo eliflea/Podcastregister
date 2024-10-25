@@ -28,7 +28,7 @@ namespace podcast_grupp18
             label1 = new Label();
             comboBox1 = new ComboBox();
             comboBox2 = new ComboBox();
-            comboBox3 = new ComboBox();
+            filtreraKategori = new ComboBox();
             btnLaggTill = new Button();
             btnAndraFlode = new Button();
             btnAterstall = new Button();
@@ -49,6 +49,7 @@ namespace podcast_grupp18
             listBoxKategori = new ListBox();
             lvwPodcastDetaljer = new ListView();
             lvwAvsnitt = new ListView();
+            btnSpara = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
@@ -95,19 +96,19 @@ namespace podcast_grupp18
             comboBox2.Text = "Kategori";
             comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             // 
-            // comboBox3
+            // filtreraKategori
             // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(543, 180);
-            comboBox3.Margin = new Padding(4, 5, 4, 5);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(160, 28);
-            comboBox3.TabIndex = 4;
-            comboBox3.Text = "Kategori";
+            filtreraKategori.FormattingEnabled = true;
+            filtreraKategori.Location = new Point(543, 180);
+            filtreraKategori.Margin = new Padding(4, 5, 4, 5);
+            filtreraKategori.Name = "filtreraKategori";
+            filtreraKategori.Size = new Size(160, 28);
+            filtreraKategori.TabIndex = 4;
+            filtreraKategori.Text = "Filtrera...";
             // 
             // btnLaggTill
             // 
-            btnLaggTill.Location = new Point(503, 255);
+            btnLaggTill.Location = new Point(651, 297);
             btnLaggTill.Margin = new Padding(4, 5, 4, 5);
             btnLaggTill.Name = "btnLaggTill";
             btnLaggTill.Size = new Size(100, 35);
@@ -118,7 +119,7 @@ namespace podcast_grupp18
             // 
             // btnAndraFlode
             // 
-            btnAndraFlode.Location = new Point(610, 255);
+            btnAndraFlode.Location = new Point(651, 254);
             btnAndraFlode.Margin = new Padding(4, 5, 4, 5);
             btnAndraFlode.Name = "btnAndraFlode";
             btnAndraFlode.Size = new Size(100, 35);
@@ -129,7 +130,7 @@ namespace podcast_grupp18
             // 
             // btnAterstall
             // 
-            btnAterstall.Location = new Point(610, 218);
+            btnAterstall.Location = new Point(723, 176);
             btnAterstall.Margin = new Padding(4, 5, 4, 5);
             btnAterstall.Name = "btnAterstall";
             btnAterstall.Size = new Size(100, 35);
@@ -140,7 +141,7 @@ namespace podcast_grupp18
             // 
             // taBortFlode
             // 
-            taBortFlode.Location = new Point(738, 254);
+            taBortFlode.Location = new Point(759, 297);
             taBortFlode.Margin = new Padding(4, 5, 4, 5);
             taBortFlode.Name = "taBortFlode";
             taBortFlode.Size = new Size(100, 35);
@@ -236,7 +237,7 @@ namespace podcast_grupp18
             // 
             // txtURL
             // 
-            txtURL.Location = new Point(577, 302);
+            txtURL.Location = new Point(511, 302);
             txtURL.Margin = new Padding(4, 5, 4, 5);
             txtURL.Name = "txtURL";
             txtURL.Size = new Size(132, 27);
@@ -246,7 +247,7 @@ namespace podcast_grupp18
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(518, 305);
+            label4.Location = new Point(462, 305);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(38, 20);
@@ -317,12 +318,23 @@ namespace podcast_grupp18
             lvwAvsnitt.UseCompatibleStateImageBehavior = false;
             lvwAvsnitt.View = View.Details;
             // 
+            // btnSpara
+            // 
+            btnSpara.Location = new Point(765, 254);
+            btnSpara.Name = "btnSpara";
+            btnSpara.Size = new Size(94, 29);
+            btnSpara.TabIndex = 28;
+            btnSpara.Text = "Spara";
+            btnSpara.UseVisualStyleBackColor = true;
+            btnSpara.Click += btnSpara_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(1774, 647);
+            Controls.Add(btnSpara);
             Controls.Add(lvwAvsnitt);
             Controls.Add(lvwPodcastDetaljer);
             Controls.Add(listBoxKategori);
@@ -343,7 +355,7 @@ namespace podcast_grupp18
             Controls.Add(btnAterstall);
             Controls.Add(btnAndraFlode);
             Controls.Add(btnLaggTill);
-            Controls.Add(comboBox3);
+            Controls.Add(filtreraKategori);
             Controls.Add(comboBox2);
             Controls.Add(comboBox1);
             Controls.Add(label1);
@@ -379,7 +391,7 @@ namespace podcast_grupp18
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox filtreraKategori;
         private System.Windows.Forms.Button btnLaggTill;
         private System.Windows.Forms.Button btnAndraFlode;
         private System.Windows.Forms.Button btnAterstall;
@@ -400,6 +412,7 @@ namespace podcast_grupp18
         private System.Windows.Forms.ListBox listBoxKategori;
         private ListView lvwPodcastDetaljer;
         private ListView lvwAvsnitt;
+        private Button btnSpara;
     }
 }
 
