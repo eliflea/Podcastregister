@@ -44,7 +44,7 @@ namespace dataAccess
         {
             if (!File.Exists(FilePath))
             {
-                return null;
+                return new List<Podcast>();
             }
 
             var serializer = new XmlSerializer(typeof(List<Podcast>));

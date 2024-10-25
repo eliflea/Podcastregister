@@ -2,6 +2,10 @@
 using models;
 using System.Xml;
 using System.ServiceModel.Syndication;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 
 namespace business
 {
@@ -16,38 +20,46 @@ namespace business
         }
 
         public async Task<Podcast> HamtaPodcastFranRSSAsync(string URL)
-        //Hämta och sparar podcastavsnitt från 1 RSS-flöde till repositoryn
         {
             try
-                {
-                    // hämtar RSS-flödet som en string
-                    string xmlContent = await httpClient.GetStringAsync(URL);
+            {
+                // Hämtar RSS-flödet som en sträng
+                string xmlContent = await httpClient.GetStringAsync(URL);
 
-                    using (var stringReader = new StringReader(xmlContent))
-                    using (XmlReader xmlReader = XmlReader.Create(stringReader))
+                using (var stringReader = new StringReader(xmlContent))
+                using (XmlReader xmlReader = XmlReader.Create(stringReader))
+                {
+                    SyndicationFeed podcastFlode = SyndicationFeed.Load(xmlReader);
+
+                    // Kontrollera att flödet och dess titel finns
+                    if (podcastFlode == null || string.IsNullOrEmpty(podcastFlode.Title?.Text))
                     {
-                        SyndicationFeed podcastFlode = SyndicationFeed.Load(xmlReader);
-                        Podcast enPodcast = new Podcast(podcastFlode.Title.Text, URL); // podcastnamn
-
-                        foreach (SyndicationItem item in podcastFlode.Items)
-                        {
-                            string avsnittTitel = item.Title.Text;
-                            string avsnittUrl = item.Links.FirstOrDefault()?.Uri.ToString();
-
-                            if (!string.IsNullOrEmpty(avsnittTitel) && !string.IsNullOrEmpty(avsnittUrl))
-                            {
-                                enPodcast.AddAvsnitt(avsnittTitel, avsnittUrl); // lägger till avsnitt t podcast
-                            }
-                        }
-
-                        podcastRepository.LaggTillPodcast(enPodcast); // sparar podcast
-                        return enPodcast;
+                        throw new Exception("Flödet kunde inte läsas eller har ingen titel.");
                     }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Fel vid hämtning: {ex.Message}", ex);
 
+                    // Skapar en ny Podcast med titel och URL
+                    Podcast enPodcast = new Podcast(podcastFlode.Title.Text, URL);
+
+                    // Itererar igenom avsnitt i RSS-flödet och lägger till dem i podcasten
+                    foreach (SyndicationItem item in podcastFlode.Items)
+                    {
+                        string avsnittTitel = item.Title?.Text;
+                        string avsnittUrl = item.Links.FirstOrDefault()?.Uri.ToString();
+
+                        if (!string.IsNullOrEmpty(avsnittTitel) && !string.IsNullOrEmpty(avsnittUrl))
+                        {
+                            enPodcast.AddAvsnitt(avsnittTitel, avsnittUrl); // Lägger till avsnitt
+                        }
+                    }
+
+                    // Lägger till podcasten i repository
+                    podcastRepository.LaggTillPodcast(enPodcast);
+                    return enPodcast;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Fel vid hämtning: {ex.Message}", ex);
             }
         }
 
@@ -55,6 +67,9 @@ namespace business
         {
             return podcastRepository.HamtaAllaPodcast();
         }
+    }
+}
+
 
         /*//Hämta och sparar podcastavsnitt från 1 RSS-flöde till repositoryn
        public Podcast HamtaPodcastFranRSS(string URL)
@@ -79,5 +94,5 @@ namespace business
            return enPodcast;
        }
        */
-    }
-}
+    
+

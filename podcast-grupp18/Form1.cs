@@ -44,6 +44,7 @@ namespace podcast_grupp18
         {
             var podcasts = podcastRepository.HamtaAllaPodcast();
             foreach (var podcast in podcasts)
+                if (podcasts.Any())
             {
                 int antalAvsnitt = podcast.HamtaAvsnitt().Count;
                 ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
@@ -73,32 +74,60 @@ namespace podcast_grupp18
         //Lägger till podcastflöde (ansykront anrop)
         {
             string url = txtURL.Text.Trim();
+            string podcastNamn = textBox1.Text.Trim(); // Hämtar podcastnamnet från textBox1
+            string kategori = comboBox2.SelectedItem?.ToString() ?? ""; // Hämtar vald kategori från comboBox2
 
+            // Kontrollera om URL och namn är ifyllt
             if (string.IsNullOrWhiteSpace(url))
             {
                 MessageBox.Show("Vänligen ange giltig URL!");
                 return;
             }
+
+            if (string.IsNullOrWhiteSpace(podcastNamn))
+            {
+                MessageBox.Show("Vänligen ange ett namn för podcasten.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(kategori))
+            {
+                MessageBox.Show("Vänligen välj en kategori.");
+                return;
+            }
+
             try
             {
                 Podcast podcast = await podcastController.HamtaPodcastFranRSSAsync(url);
+
                 if (podcast == null || !podcast.HamtaAvsnitt().Any())
                 {
                     MessageBox.Show("Podcasten kunde ej hittas!");
                     return;
                 }
 
-                // podcastnamn och antal avsnitt
+                // Uppdatera podcastens namn och kategori med användarens input
+                podcast.Namn = podcastNamn;
+                podcast.Kategori = kategori;
+
+                // Skapa ListViewItem och fyll kolumnerna
                 int antalAvsnitt = podcast.HamtaAvsnitt().Count;
-                ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
-                podcastItem.SubItems.Add(string.Empty);  // 2 KOLUMN för framtida använde
-                podcastItem.SubItems.Add(podcast.Namn);
+                ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString()); // Antal avsnitt
+                podcastItem.SubItems.Add(podcast.Namn);      // Namn från textBox1
+                podcastItem.SubItems.Add(podcast.Titel ?? "Ingen titel");   // Titel från podcast, hantera om den är null
+                podcastItem.SubItems.Add("Frekvens"); // Här kan du lägga till frekvens om det finns en variabel för det
+                podcastItem.SubItems.Add(podcast.Kategori);   // Kategori från comboBox2
 
-                podcastItem.Tag = podcast; //lägger podcasten i en tag... används för att kunna se specifika avsnitt
+                podcastItem.Tag = podcast; // Lagrar podcasten som en tagg för att senare hämta avsnitt
                 lvwPodcastDetaljer.Items.Add(podcastItem);
-                txtURL.Clear();
 
-                podcastRepository.LaggTillPodcast(podcast); //sparar podcast t repository
+                // Rensa inmatningsfälten efter tillägg
+                txtURL.Clear();
+                textBox1.Clear();
+                comboBox2.SelectedIndex = -1; // Rensa vald kategori
+
+                // Lägg till podcasten i podcastRepository
+                podcastRepository.LaggTillPodcast(podcast);
             }
             catch (Exception ex)
             {
