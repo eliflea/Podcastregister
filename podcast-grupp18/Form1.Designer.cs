@@ -30,8 +30,8 @@ namespace podcast_grupp18
             comboBox2 = new ComboBox();
             comboBox3 = new ComboBox();
             btnLaggTill = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            btnAndraFlode = new Button();
+            btnAterstall = new Button();
             taBortFlode = new Button();
             label2 = new Label();
             kategoriTextBox = new TextBox();
@@ -116,25 +116,27 @@ namespace podcast_grupp18
             btnLaggTill.UseVisualStyleBackColor = true;
             btnLaggTill.Click += button1_Click;
             // 
-            // button2
+            // btnAndraFlode
             // 
-            button2.Location = new Point(610, 255);
-            button2.Margin = new Padding(4, 5, 4, 5);
-            button2.Name = "button2";
-            button2.Size = new Size(100, 35);
-            button2.TabIndex = 6;
-            button2.Text = "Ändra";
-            button2.UseVisualStyleBackColor = true;
+            btnAndraFlode.Location = new Point(610, 255);
+            btnAndraFlode.Margin = new Padding(4, 5, 4, 5);
+            btnAndraFlode.Name = "btnAndraFlode";
+            btnAndraFlode.Size = new Size(100, 35);
+            btnAndraFlode.TabIndex = 6;
+            btnAndraFlode.Text = "Ändra";
+            btnAndraFlode.UseVisualStyleBackColor = true;
+            btnAndraFlode.Click += btnAndraFlode_Click;
             // 
-            // button3
+            // btnAterstall
             // 
-            button3.Location = new Point(738, 209);
-            button3.Margin = new Padding(4, 5, 4, 5);
-            button3.Name = "button3";
-            button3.Size = new Size(100, 35);
-            button3.TabIndex = 7;
-            button3.Text = "Återställ";
-            button3.UseVisualStyleBackColor = true;
+            btnAterstall.Location = new Point(610, 218);
+            btnAterstall.Margin = new Padding(4, 5, 4, 5);
+            btnAterstall.Name = "btnAterstall";
+            btnAterstall.Size = new Size(100, 35);
+            btnAterstall.TabIndex = 7;
+            btnAterstall.Text = "Återställ";
+            btnAterstall.UseVisualStyleBackColor = true;
+            btnAterstall.Click += btnAterstall_Click;
             // 
             // taBortFlode
             // 
@@ -338,15 +340,14 @@ namespace podcast_grupp18
             Controls.Add(kategoriTextBox);
             Controls.Add(label2);
             Controls.Add(taBortFlode);
-            Controls.Add(button3);
-            Controls.Add(button2);
+            Controls.Add(btnAterstall);
+            Controls.Add(btnAndraFlode);
             Controls.Add(btnLaggTill);
             Controls.Add(comboBox3);
             Controls.Add(comboBox2);
             Controls.Add(comboBox1);
             Controls.Add(label1);
             Controls.Add(textBox1);
-            FormBorderStyle = FormBorderStyle.Sizable;
             Margin = new Padding(4, 5, 4, 5);
             Name = "Form1";
             Text = "Form1";
@@ -380,8 +381,8 @@ namespace podcast_grupp18
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.Button btnLaggTill;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnAndraFlode;
+        private System.Windows.Forms.Button btnAterstall;
         private System.Windows.Forms.Button taBortFlode;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox kategoriTextBox;

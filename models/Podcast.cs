@@ -13,6 +13,7 @@ namespace models
         public string Kategori { get; set; }
         public string? Titel { get; set; }
 
+
         public Podcast() // För XML-seralisering
         {
             AvsnittLista = new List<Avsnitt>();
