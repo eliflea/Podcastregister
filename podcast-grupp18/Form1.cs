@@ -1,6 +1,7 @@
 ﻿using business;
 using dataAccess;
 using models;
+using utilities;
 
 namespace podcast_grupp18
 {
@@ -8,6 +9,7 @@ namespace podcast_grupp18
     {
         private PodcastController podcastController;
         private PodcastRepository podcastRepository;
+        private IPodcastService podcastService;
 
         public Form1()
         {
@@ -17,6 +19,11 @@ namespace podcast_grupp18
             lvwPodcastDetaljer.SelectedIndexChanged += lvwPodcastDetaljer_SelectedIndexChanged;
             podcastController = new PodcastController();
             podcastRepository = new PodcastRepository();
+        }
+
+        public Form1(IPodcastService podcastService)
+        {
+            this.podcastService = podcastService;
         }
 
 
@@ -74,35 +81,32 @@ namespace podcast_grupp18
         {
             string url = txtURL.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(url))
+            if (Validator.IsValidUrl(url))
             {
-                MessageBox.Show("Vänligen ange giltig URL!");
-                return;
-            }
-            try
-            {
-                Podcast podcast = await podcastController.HamtaPodcastFranRSSAsync(url);
-                if (podcast == null || !podcast.HamtaAvsnitt().Any())
+                try
                 {
-                    MessageBox.Show("Podcasten kunde ej hittas!");
-                    return;
+                    Podcast podcast = await podcastController.HamtaPodcastFranRSSAsync(url);
+
+                    int antalAvsnitt = podcast.HamtaAvsnitt().Count;
+                    ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
+                    podcastItem.SubItems.Add(string.Empty);
+                    podcastItem.SubItems.Add(podcast.Namn);
+
+                    podcastItem.Tag = podcast;
+                    lvwPodcastDetaljer.Items.Add(podcastItem);
+
+                    txtURL.Clear();
+
+                    podcastRepository.LaggTillPodcast(podcast);
                 }
-
-                // podcastnamn och antal avsnitt
-                int antalAvsnitt = podcast.HamtaAvsnitt().Count;
-                ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
-                podcastItem.SubItems.Add(string.Empty);  // 2 KOLUMN för framtida använde
-                podcastItem.SubItems.Add(podcast.Namn);
-
-                podcastItem.Tag = podcast; //lägger podcasten i en tag... används för att kunna se specifika avsnitt
-                lvwPodcastDetaljer.Items.Add(podcastItem);
-                txtURL.Clear();
-
-                podcastRepository.LaggTillPodcast(podcast); //sparar podcast t repository
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ett fel uppstod: " + ex.Message, "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show($"Ett fel uppstod: {ex.Message}", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Vänligen ange en giltig URL.");
             }
         }
 
@@ -212,13 +216,13 @@ namespace podcast_grupp18
         }
 
         private void DisplayEpisodes(Podcast podcast)
-        { 
-        lvwAvsnitt.Items.Clear();
+        {
+            lvwAvsnitt.Items.Clear();
 
-          // Fetch episode titles
-         var avsnittTitlar = podcast.HamtaAvsnittTitlar();
+            // Fetch avsnitt titlar
+            var avsnittLista = podcast.HamtaAvsnitt();
 
-            if (avsnittTitlar == null || !avsnittTitlar.Any())
+            if (avsnittLista == null || !avsnittLista.Any())
             {
                 if (lvwAvsnitt.Items.Count == 0)
                 {
@@ -226,12 +230,13 @@ namespace podcast_grupp18
                 }
             }
             else
-          {
+            {
                 int avsnittNummer = 1;
 
-                foreach (var avsnittTitel in avsnittTitlar)
-             {
-                    var listViewItem = new ListViewItem($"{avsnittNummer}. {avsnittTitel}"); 
+                foreach (var avsnitt in avsnittLista)
+                {
+                    var listViewItem = new ListViewItem($"{avsnittNummer}. {avsnitt.Titel}");
+                    listViewItem.Tag = avsnitt; // Tilldela Avsnitt-objektet till Tag
                     lvwAvsnitt.Items.Add(listViewItem);
                     avsnittNummer++;
                 }
@@ -264,6 +269,39 @@ namespace podcast_grupp18
             {
                 MessageBox.Show("Vänligen välj en podcast att ta bort.");
             }
+        }
+
+        private void lvwAvsnitt_SelectedIndexChanged(object sender, EventArgs e)
+        //Visar beskrivning för vald avsnitt (om man klickar på en rad)
+        {
+            if (lvwAvsnitt.SelectedItems.Count > 0)
+            {
+                Avsnitt valtAvsnitt = lvwAvsnitt.SelectedItems[0].Tag as Avsnitt;
+
+                if (valtAvsnitt != null)
+                {
+                    DisplayBeskrivning(valtAvsnitt);
+                }
+            }
+        }
+        private void DisplayBeskrivning(Avsnitt avsnitt)
+        {
+            lbBeskrivning2.Items.Clear();
+
+            if (!string.IsNullOrWhiteSpace(avsnitt.Beskrivning))
+            {
+                string cleanDescription = TaBortHtmlTags(avsnitt.Beskrivning);
+                lbBeskrivning2.Items.Add(cleanDescription);
+            }
+            else
+            {
+                MessageBox.Show("Ingen beskrivning hittades!");
+            }
+        }
+
+        private string TaBortHtmlTags(string input)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(input, "<.*?>", string.Empty);
         }
     }
 }

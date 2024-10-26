@@ -23,14 +23,19 @@ namespace models
         }
 
         // titel-lista lägg till
-        public void AddAvsnitt(string titel, string url)
+        public void AddAvsnitt(string titel, string url, string beskrivning)
         {
-            AvsnittLista.Add(new Avsnitt(titel, url));
+            AvsnittLista.Add(new Avsnitt(titel, url, beskrivning));
         }
 
         public List<string> HamtaAvsnittTitlar()
         {
             return AvsnittLista.Select(a => a.Titel).ToList();
+        }
+
+        public List<string> HamtaAvsnittBeskrivningar()
+        {
+            return AvsnittLista.Select(a => a.Beskrivning).ToList();
         }
 
         // hämta url baserat på titel

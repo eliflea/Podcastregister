@@ -5,7 +5,7 @@ using System.ServiceModel.Syndication;
 
 namespace business
 {
-    public class PodcastController
+    public class PodcastController : IPodcastService
     {
         private static readonly HttpClient httpClient = new HttpClient();
         private PodcastRepository podcastRepository;
@@ -18,6 +18,11 @@ namespace business
         public async Task<Podcast> HamtaPodcastFranRSSAsync(string URL)
         //Hämta och sparar podcastavsnitt från 1 RSS-flöde till repositoryn
         {
+            if (!utilities.Validator.IsValidUrl(URL))
+            {
+                throw new ArgumentException("Ogiltig URL.");
+            }
+
             try
                 {
                     // hämtar RSS-flödet som en string
@@ -33,10 +38,11 @@ namespace business
                         {
                             string avsnittTitel = item.Title.Text;
                             string avsnittUrl = item.Links.FirstOrDefault()?.Uri.ToString();
+                            string avsnittBeskrivning = item.Summary.Text;
 
-                            if (!string.IsNullOrEmpty(avsnittTitel) && !string.IsNullOrEmpty(avsnittUrl))
+                        if (!string.IsNullOrEmpty(avsnittTitel) && !string.IsNullOrEmpty(avsnittUrl) && !string.IsNullOrEmpty(avsnittBeskrivning))
                             {
-                                enPodcast.AddAvsnitt(avsnittTitel, avsnittUrl); // lägger till avsnitt t podcast
+                                enPodcast.AddAvsnitt(avsnittTitel, avsnittUrl, avsnittBeskrivning); // lägger till avsnitt t podcast
                             }
                         }
 
@@ -55,29 +61,5 @@ namespace business
         {
             return podcastRepository.HamtaAllaPodcast();
         }
-
-        /*//Hämta och sparar podcastavsnitt från 1 RSS-flöde till repositoryn
-       public Podcast HamtaPodcastFranRSS(string URL)
-       {
-           XmlReader XMLlasare = XmlReader.Create(URL);
-           SyndicationFeed podcastFlode = SyndicationFeed.Load(XMLlasare);
-
-           Podcast enPodcast = new Podcast(podcastFlode.Title.Text, URL); // podcastnamn
-
-           foreach (SyndicationItem item in podcastFlode.Items)
-           {
-               string episodeTitle = item.Title.Text;
-               string episodeUrl = item.Links.FirstOrDefault()?.Uri.ToString();
-
-               if (!string.IsNullOrEmpty(episodeTitle) && !string.IsNullOrEmpty(episodeUrl))
-               {
-                   enPodcast.AddAvsnitt(episodeTitle, episodeUrl); // Add episode to podcast
-               }
-           }
-           podcastRepository.LaggTillPodcast(enPodcast); //Sparar podcast
-
-           return enPodcast;
-       }
-       */
     }
 }
