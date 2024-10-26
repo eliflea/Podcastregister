@@ -40,12 +40,12 @@ namespace podcast_grupp18
             taBortKategori = new Button();
             txtURL = new TextBox();
             label4 = new Label();
-            lbBeskrivning2 = new ListBox();
             label5 = new Label();
             label6 = new Label();
             listBoxKategori = new ListBox();
             lvwPodcastDetaljer = new ListView();
             lvwAvsnitt = new ListView();
+            lbBeskrivning = new TextBox();
             SuspendLayout();
             // 
             // textBox1
@@ -216,16 +216,6 @@ namespace podcast_grupp18
             label4.TabIndex = 21;
             label4.Text = "URL:";
             // 
-            // lbBeskrivning2
-            // 
-            lbBeskrivning2.FormattingEnabled = true;
-            lbBeskrivning2.Location = new Point(1833, 1204);
-            lbBeskrivning2.Margin = new Padding(6, 8, 6, 8);
-            lbBeskrivning2.Name = "lbBeskrivning2";
-            lbBeskrivning2.ScrollAlwaysVisible = true;
-            lbBeskrivning2.Size = new Size(587, 420);
-            lbBeskrivning2.TabIndex = 22;
-            // 
             // label5
             // 
             label5.AutoSize = true;
@@ -280,18 +270,27 @@ namespace podcast_grupp18
             lvwAvsnitt.View = View.Details;
             lvwAvsnitt.SelectedIndexChanged += lvwAvsnitt_SelectedIndexChanged;
             // 
+            // lbBeskrivning
+            // 
+            lbBeskrivning.Location = new Point(1832, 1215);
+            lbBeskrivning.Multiline = true;
+            lbBeskrivning.Name = "lbBeskrivning";
+            lbBeskrivning.ScrollBars = ScrollBars.Vertical;
+            lbBeskrivning.Size = new Size(588, 419);
+            lbBeskrivning.TabIndex = 28;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(2883, 1759);
+            Controls.Add(lbBeskrivning);
             Controls.Add(lvwAvsnitt);
             Controls.Add(lvwPodcastDetaljer);
             Controls.Add(listBoxKategori);
             Controls.Add(label6);
             Controls.Add(label5);
-            Controls.Add(lbBeskrivning2);
             Controls.Add(label4);
             Controls.Add(txtURL);
             Controls.Add(taBortKategori);
@@ -349,12 +348,12 @@ namespace podcast_grupp18
         private System.Windows.Forms.Button taBortKategori;
         private System.Windows.Forms.TextBox txtURL;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ListBox lbBeskrivning2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ListBox listBoxKategori;
         private ListView lvwPodcastDetaljer;
         private ListView lvwAvsnitt;
+        private TextBox lbBeskrivning;
     }
 }
 

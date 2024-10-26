@@ -106,8 +106,8 @@ namespace podcast_grupp18
         //Lägger till podcastflöde (ansykront anrop)
         {
             string url = txtURL.Text.Trim();
-            string podcastNamn = textBox1.Text.Trim(); 
-            string kategori = comboBox2.SelectedItem?.ToString() ?? ""; 
+            string podcastNamn = textBox1.Text.Trim();
+            string kategori = comboBox2.SelectedItem?.ToString() ?? "";
 
             if (!Validator.IsValidUrl(url))
             {
@@ -147,11 +147,11 @@ namespace podcast_grupp18
                 podcast.Kategori = kategori;
 
                 int antalAvsnitt = podcast.HamtaAvsnitt().Count;
-                ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString()); 
+                ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
                 podcastItem.SubItems.Add(valtNamn); // Namn från textBox1
                 podcastItem.SubItems.Add(podcast.Namn); // podcastnamn
-                podcastItem.SubItems.Add(""); 
-                podcastItem.SubItems.Add(podcast.Kategori); 
+                podcastItem.SubItems.Add("");
+                podcastItem.SubItems.Add(podcast.Kategori);
 
                 podcastItem.Tag = podcast;
                 lvwPodcastDetaljer.Items.Add(podcastItem);
@@ -381,12 +381,12 @@ namespace podcast_grupp18
 
         private void DisplayBeskrivning(Avsnitt avsnitt)
         {
-            lbBeskrivning2.Items.Clear();
+            lbBeskrivning.Text = string.Empty;
 
             if (!string.IsNullOrWhiteSpace(avsnitt.Beskrivning))
             {
-                string cleanDescription = TaBortHtmlTags(avsnitt.Beskrivning);
-                lbBeskrivning2.Items.Add(cleanDescription);
+                string renDescription = TaBortHtmlTags(avsnitt.Beskrivning);
+                lbBeskrivning.Text = renDescription;
             }
             else
             {
@@ -493,7 +493,6 @@ namespace podcast_grupp18
             // Ladda om alla podcasts
             LoadPodcasts();
         }
-
     }
 }
 
