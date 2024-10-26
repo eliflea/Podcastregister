@@ -106,17 +106,15 @@ namespace podcast_grupp18
         //Lägger till podcastflöde (ansykront anrop)
         {
             string url = txtURL.Text.Trim();
-            string podcastNamn = textBox1.Text.Trim(); // Hämta podcastnamn från textBox1
-            string kategori = comboBox2.SelectedItem?.ToString() ?? ""; // Hämta vald kategori från comboBox2
+            string podcastNamn = textBox1.Text.Trim(); 
+            string kategori = comboBox2.SelectedItem?.ToString() ?? ""; 
 
-            // Kontrollera om URL är giltig
             if (!Validator.IsValidUrl(url))
             {
                 MessageBox.Show("Vänligen ange en giltig URL.");
                 return;
             }
 
-            // Kontrollera om URL, namn och kategori är ifyllda
             if (string.IsNullOrWhiteSpace(url))
             {
                 MessageBox.Show("Vänligen ange en giltig URL!");
@@ -145,28 +143,23 @@ namespace podcast_grupp18
                     return;
                 }
 
-                // Uppdatera podcastens egenskaper med användarens input
-                podcast.Namn = podcastNamn;
+                string valtNamn = podcastNamn;
                 podcast.Kategori = kategori;
 
-                // Skapa ListViewItem och fyll i kolumnerna
                 int antalAvsnitt = podcast.HamtaAvsnitt().Count;
-                ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString()); // Antal avsnitt
-                podcastItem.SubItems.Add(podcast.Namn); // Namn från textBox1
-                podcastItem.SubItems.Add(podcast.Titel ?? "Ingen titel"); // Titel från podcast, sätt till "Ingen titel" om null
-                podcastItem.SubItems.Add("Frekvens"); // Lägg till frekvens om du har en variabel för detta
-                podcastItem.SubItems.Add(podcast.Kategori); // Kategori från comboBox2
+                ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString()); 
+                podcastItem.SubItems.Add(valtNamn); // Namn från textBox1
+                podcastItem.SubItems.Add(podcast.Namn); // podcastnamn
+                podcastItem.SubItems.Add(""); 
+                podcastItem.SubItems.Add(podcast.Kategori); 
 
-                // Lagra podcasten i Tag-egenskapen för att kunna hämta senare
                 podcastItem.Tag = podcast;
                 lvwPodcastDetaljer.Items.Add(podcastItem);
 
-                // Rensa inmatningsfälten efter tillägg
                 txtURL.Clear();
                 textBox1.Clear();
                 comboBox2.SelectedIndex = -1;
 
-                // Lägg till podcasten i podcastRepository
                 podcastRepository.LaggTillPodcast(podcast);
             }
             catch (Exception ex)

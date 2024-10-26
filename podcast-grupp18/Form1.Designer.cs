@@ -46,7 +46,6 @@ namespace podcast_grupp18
             listBoxKategori = new ListBox();
             lvwPodcastDetaljer = new ListView();
             lvwAvsnitt = new ListView();
-            lbBeskrivning = new TextBox();
             SuspendLayout();
             // 
             // textBox1
@@ -97,7 +96,7 @@ namespace podcast_grupp18
             filtreraKategori.Location = new Point(543, 180);
             filtreraKategori.Margin = new Padding(4, 5, 4, 5);
             filtreraKategori.Name = "filtreraKategori";
-            filtreraKategori.Size = new Size(160, 28);
+            filtreraKategori.Size = new Size(160, 40);
             filtreraKategori.TabIndex = 4;
             filtreraKategori.Text = "Filtrera...";
             // 
@@ -281,31 +280,12 @@ namespace podcast_grupp18
             lvwAvsnitt.View = View.Details;
             lvwAvsnitt.SelectedIndexChanged += lvwAvsnitt_SelectedIndexChanged;
             // 
-            // lbBeskrivning
-            // 
-            lbBeskrivning.Location = new Point(1449, 1142);
-            lbBeskrivning.Multiline = true;
-            lbBeskrivning.Name = "lbBeskrivning";
-            lbBeskrivning.Size = new Size(337, 436);
-            lbBeskrivning.TabIndex = 28;
-            // 
-            // btnSpara
-            // 
-            btnSpara.Location = new Point(765, 254);
-            btnSpara.Name = "btnSpara";
-            btnSpara.Size = new Size(94, 29);
-            btnSpara.TabIndex = 28;
-            btnSpara.Text = "Spara";
-            btnSpara.UseVisualStyleBackColor = true;
-            btnSpara.Click += btnSpara_Click;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(2883, 1759);
-            Controls.Add(lbBeskrivning);
             Controls.Add(lvwAvsnitt);
             Controls.Add(lvwPodcastDetaljer);
             Controls.Add(listBoxKategori);
@@ -375,8 +355,6 @@ namespace podcast_grupp18
         private System.Windows.Forms.ListBox listBoxKategori;
         private ListView lvwPodcastDetaljer;
         private ListView lvwAvsnitt;
-        private TextBox lbBeskrivning;
-        private TextBox TaBortHtmlTags;
     }
 }
 
