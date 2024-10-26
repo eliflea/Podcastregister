@@ -10,6 +10,9 @@ namespace models
         
         public string Namn { get; set; } // podcastnamn
         public string URL { get; set; } // Podcast URL
+        public string Kategori { get; set; }
+        public string? Titel { get; set; }
+
 
         public Podcast() // För XML-seralisering
         {

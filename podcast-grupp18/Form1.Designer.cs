@@ -28,10 +28,10 @@ namespace podcast_grupp18
             label1 = new Label();
             comboBox1 = new ComboBox();
             comboBox2 = new ComboBox();
-            comboBox3 = new ComboBox();
+            filtreraKategori = new ComboBox();
             btnLaggTill = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            btnAndraFlode = new Button();
+            btnAterstall = new Button();
             taBortFlode = new Button();
             kategoriTextBox = new TextBox();
             label3 = new Label();
@@ -91,15 +91,15 @@ namespace podcast_grupp18
             comboBox2.Text = "Kategori";
             comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             // 
-            // comboBox3
+            // filtreraKategori
             // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(882, 288);
-            comboBox3.Margin = new Padding(6, 8, 6, 8);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(258, 40);
-            comboBox3.TabIndex = 4;
-            comboBox3.Text = "Kategori";
+            filtreraKategori.FormattingEnabled = true;
+            filtreraKategori.Location = new Point(543, 180);
+            filtreraKategori.Margin = new Padding(4, 5, 4, 5);
+            filtreraKategori.Name = "filtreraKategori";
+            filtreraKategori.Size = new Size(160, 28);
+            filtreraKategori.TabIndex = 4;
+            filtreraKategori.Text = "Filtrera...";
             // 
             // btnLaggTill
             // 
@@ -112,25 +112,27 @@ namespace podcast_grupp18
             btnLaggTill.UseVisualStyleBackColor = true;
             btnLaggTill.Click += button1_Click;
             // 
-            // button2
+            // btnAndraFlode
             // 
-            button2.Location = new Point(991, 408);
-            button2.Margin = new Padding(6, 8, 6, 8);
-            button2.Name = "button2";
-            button2.Size = new Size(162, 56);
-            button2.TabIndex = 6;
-            button2.Text = "Ändra";
-            button2.UseVisualStyleBackColor = true;
+            btnAndraFlode.Location = new Point(651, 254);
+            btnAndraFlode.Margin = new Padding(4, 5, 4, 5);
+            btnAndraFlode.Name = "btnAndraFlode";
+            btnAndraFlode.Size = new Size(100, 35);
+            btnAndraFlode.TabIndex = 6;
+            btnAndraFlode.Text = "Ändra";
+            btnAndraFlode.UseVisualStyleBackColor = true;
+            btnAndraFlode.Click += btnAndraFlode_Click;
             // 
-            // button3
+            // btnAterstall
             // 
-            button3.Location = new Point(1199, 334);
-            button3.Margin = new Padding(6, 8, 6, 8);
-            button3.Name = "button3";
-            button3.Size = new Size(162, 56);
-            button3.TabIndex = 7;
-            button3.Text = "Återställ";
-            button3.UseVisualStyleBackColor = true;
+            btnAterstall.Location = new Point(723, 176);
+            btnAterstall.Margin = new Padding(4, 5, 4, 5);
+            btnAterstall.Name = "btnAterstall";
+            btnAterstall.Size = new Size(100, 35);
+            btnAterstall.TabIndex = 7;
+            btnAterstall.Text = "Återställ";
+            btnAterstall.UseVisualStyleBackColor = true;
+            btnAterstall.Click += btnAterstall_Click;
             // 
             // taBortFlode
             // 
@@ -287,6 +289,16 @@ namespace podcast_grupp18
             lbBeskrivning.Size = new Size(337, 436);
             lbBeskrivning.TabIndex = 28;
             // 
+            // btnSpara
+            // 
+            btnSpara.Location = new Point(765, 254);
+            btnSpara.Name = "btnSpara";
+            btnSpara.Size = new Size(94, 29);
+            btnSpara.TabIndex = 28;
+            btnSpara.Text = "Spara";
+            btnSpara.UseVisualStyleBackColor = true;
+            btnSpara.Click += btnSpara_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
@@ -308,10 +320,10 @@ namespace podcast_grupp18
             Controls.Add(label3);
             Controls.Add(kategoriTextBox);
             Controls.Add(taBortFlode);
-            Controls.Add(button3);
-            Controls.Add(button2);
+            Controls.Add(btnAterstall);
+            Controls.Add(btnAndraFlode);
             Controls.Add(btnLaggTill);
-            Controls.Add(comboBox3);
+            Controls.Add(filtreraKategori);
             Controls.Add(comboBox2);
             Controls.Add(comboBox1);
             Controls.Add(label1);
@@ -345,10 +357,10 @@ namespace podcast_grupp18
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox filtreraKategori;
         private System.Windows.Forms.Button btnLaggTill;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnAndraFlode;
+        private System.Windows.Forms.Button btnAterstall;
         private System.Windows.Forms.Button taBortFlode;
         private System.Windows.Forms.TextBox kategoriTextBox;
         private System.Windows.Forms.Label label3;

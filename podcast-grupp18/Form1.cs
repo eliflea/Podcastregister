@@ -19,6 +19,12 @@ namespace podcast_grupp18
             lvwPodcastDetaljer.SelectedIndexChanged += lvwPodcastDetaljer_SelectedIndexChanged;
             podcastController = new PodcastController();
             podcastRepository = new PodcastRepository();
+            this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
+            LaddaKategorier();
+
+            filtreraKategori.SelectedIndexChanged += filtreraKategori_SelectedIndexChanged;
+
+
         }
 
         public Form1(IPodcastService podcastService)
@@ -47,19 +53,39 @@ namespace podcast_grupp18
         {
             LoadPodcasts();
         }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Spara kategorier vid stängning
+            podcastRepository.SparaKategorierTillFil(); // Anropa metoden direkt från podcastRepository
+        }
+
+
         private void LoadPodcasts()
         {
             var podcasts = podcastRepository.HamtaAllaPodcast();
             foreach (var podcast in podcasts)
+                if (podcasts.Any())
+                {
+                    int antalAvsnitt = podcast.HamtaAvsnitt().Count;
+                    ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
+                    podcastItem.SubItems.Add(string.Empty);  // 2 KOLUMN för framtida använde
+                    podcastItem.SubItems.Add(podcast.Namn);
+                    podcastItem.Tag = podcast; //lägger podcasten i en tag... används för att kunna se specifika avsnitt
+                    lvwPodcastDetaljer.Items.Add(podcastItem);
+                }
+        }
+        private void LaddaKategorier()
+        {
+            var kategorier = podcastRepository.HamtaAllaKategorier();
+            foreach (var kategori in kategorier)
             {
-                int antalAvsnitt = podcast.HamtaAvsnitt().Count;
-                ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
-                podcastItem.SubItems.Add(string.Empty);  // 2 KOLUMN för framtida använde
-                podcastItem.SubItems.Add(podcast.Namn);
-                podcastItem.Tag = podcast; //lägger podcasten i en tag... används för att kunna se specifika avsnitt
-                lvwPodcastDetaljer.Items.Add(podcastItem);
+                listBoxKategori.Items.Add(kategori);
+                comboBox2.Items.Add(kategori);
+                filtreraKategori.Items.Add(kategori);
             }
         }
+
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -80,6 +106,8 @@ namespace podcast_grupp18
         //Lägger till podcastflöde (ansykront anrop)
         {
             string url = txtURL.Text.Trim();
+            string podcastNamn = textBox1.Text.Trim(); // Hämtar podcastnamnet från textBox1
+            string kategori = comboBox2.SelectedItem?.ToString() ?? ""; // Hämtar vald kategori från comboBox2
 
             if (Validator.IsValidUrl(url))
             {
@@ -89,46 +117,54 @@ namespace podcast_grupp18
 
                     int antalAvsnitt = podcast.HamtaAvsnitt().Count;
                     ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
-                    podcastItem.SubItems.Add(string.Empty);
-                    podcastItem.SubItems.Add(podcast.Namn);
+                    podcastItem.SubItems.Add(podcast.Namn);      // Namn från textBox1
+                    podcastItem.SubItems.Add(podcast.Titel ?? "Ingen titel");   // Titel från podcast, hantera om den är null
+                    podcastItem.SubItems.Add("Frekvens"); // Här kan du lägga till frekvens om det finns en variabel för det
+                    podcastItem.SubItems.Add(podcast.Kategori);   // Kategori från comboBox2
 
-                    podcastItem.Tag = podcast;
-                    lvwPodcastDetaljer.Items.Add(podcastItem);
+                    podcastItem.Tag = podcast; //lägger podcasten i en tag... används för att kunna se specifika avsnitt
+                lvwPodcastDetaljer.Items.Add(podcastItem);
+                txtURL.Clear();
+                textBox1.Clear();
+                comboBox2.SelectedIndex = -1; // Rensa vald kategori
 
+                    // Rensa inmatningsfälten efter tillägg
                     txtURL.Clear();
-
-                    podcastRepository.LaggTillPodcast(podcast);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Ett fel uppstod: " + ex.Message, "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                    textBox1.Clear();
+                    comboBox2.SelectedIndex = -1; // Rensa vald kategori
+                    podcastRepository.LaggTillPodcast(podcast); //sparar podcast t repository
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ett fel uppstod: {ex.Message}", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
             else
             {
                 MessageBox.Show("Vänligen ange en giltig URL.");
             }
-        }
 
         private void läggTillKategori_Click_1(object sender, EventArgs e)
         {
-
             if (!string.IsNullOrWhiteSpace(kategoriTextBox.Text))
-
             {
-                listBoxKategori.Items.Add(kategoriTextBox.Text);
-
-                comboBox2.Items.Add(kategoriTextBox.Text);
-
-                kategoriTextBox.Clear();
-
+                try
+                {
+                    podcastRepository.LaggTillKategori(kategoriTextBox.Text);
+                    listBoxKategori.Items.Add(kategoriTextBox.Text);
+                    comboBox2.Items.Add(kategoriTextBox.Text);
+                    filtreraKategori.Items.Add(kategoriTextBox.Text);
+                    kategoriTextBox.Clear();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
-
             else
             {
                 MessageBox.Show("Vänligen ange en kategori.");
             }
-
         }
 
         private void taBortKategori_Click(object sender, EventArgs e)
@@ -149,11 +185,18 @@ namespace podcast_grupp18
                 // Om användaren klickar på "Ja"
                 if (result == DialogResult.Yes)
                 {
-                    listBoxKategori.Items.Remove(valdKategori);
+                    try
+                    {
+                        podcastRepository.TaBortKategori(valdKategori);
+                        listBoxKategori.Items.Remove(valdKategori);
+                        comboBox2.Items.Remove(valdKategori);
+                        filtreraKategori.Items.Remove(valdKategori);
 
-                    comboBox2.Items.Remove(valdKategori);
-
-                    kategoriTextBox.Clear();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
             }
             else
@@ -171,11 +214,31 @@ namespace podcast_grupp18
                 int selectedIndex = listBoxKategori.SelectedIndex;
 
                 // Uppdatera den valda kategorin med texten från kategoriTextBox
-                listBoxKategori.Items[selectedIndex] = kategoriTextBox.Text;
+                string nyKategori = kategoriTextBox.Text.Trim();
 
-                comboBox2.Items[selectedIndex] = kategoriTextBox.Text;
+                if (string.IsNullOrWhiteSpace(nyKategori))
+                {
+                    MessageBox.Show("Vänligen ange en giltig kategori.");
+                    return;
+                }
 
-                // Rensa textboxen om du vill
+                // Anropa metoden i PodcastRepository för att ändra kategorin
+                try
+                {
+                    podcastRepository.AndraKategori(selectedIndex, nyKategori); // Uppdatera kategorin
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ett fel uppstod: {ex.Message}", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Uppdatera listan
+                listBoxKategori.Items[selectedIndex] = nyKategori;
+                comboBox2.Items[selectedIndex] = nyKategori;
+                filtreraKategori.Items[selectedIndex] = nyKategori;
+
+                // Rensa textboxen
                 kategoriTextBox.Clear();
             }
             else
@@ -219,8 +282,8 @@ namespace podcast_grupp18
         {
             lvwAvsnitt.Items.Clear();
 
-            // Fetch avsnitt titlar
-            var avsnittLista = podcast.HamtaAvsnitt();
+          // Fetch episode titles
+         var avsnittTitlar = podcast.HamtaAvsnittTitlar();
 
             if (avsnittLista == null || !avsnittLista.Any())
             {
@@ -233,10 +296,10 @@ namespace podcast_grupp18
             {
                 int avsnittNummer = 1;
 
-                foreach (var avsnitt in avsnittLista)
-                {
-                    var listViewItem = new ListViewItem($"{avsnittNummer}. {avsnitt.Titel}");
-                    listViewItem.Tag = avsnitt; // Tilldela Avsnitt-objektet till Tag
+                foreach (var avsnittTitel in avsnittTitlar)
+             {
+                    var listViewItem = new ListViewItem($"{avsnittNummer}. {avsnittTitel}"); 
+                    lvwAvsnitt.Items.Add(listViewItem);
                     lvwAvsnitt.Items.Add(listViewItem);
                     avsnittNummer++;
                 }
@@ -260,9 +323,17 @@ namespace podcast_grupp18
                 // Om användaren klickar på "Ja"
                 if (result == DialogResult.Yes)
                 {
-                    lvwPodcastDetaljer.Items.Remove(lvwPodcastDetaljer.SelectedItems[0]);
-                    lvwAvsnitt.Items.Clear();
-                    MessageBox.Show($"Podcasten '{valdPodcast.Namn}' har tagits bort.");
+                    try
+                    {
+                        podcastRepository.TaBortPodcast(valdPodcast); // Ta bort podcasten från repository
+                        lvwPodcastDetaljer.Items.Remove(lvwPodcastDetaljer.SelectedItems[0]); // Ta bort från ListView
+                        lvwAvsnitt.Items.Clear(); // Rensa avsnitt
+                        MessageBox.Show($"Podcasten '{valdPodcast.Namn}' har tagits bort.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ett fel uppstod: {ex.Message}", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             else
@@ -271,8 +342,8 @@ namespace podcast_grupp18
             }
         }
 
-        private void lvwAvsnitt_SelectedIndexChanged(object sender, EventArgs e)
-        //Visar beskrivning för vald avsnitt (om man klickar på en rad)
+    }
+
         {
             if (lvwAvsnitt.SelectedItems.Count > 0)
             {
@@ -305,4 +376,7 @@ namespace podcast_grupp18
         }
     }
 }
+
+}
+
 

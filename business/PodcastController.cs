@@ -2,6 +2,10 @@
 using models;
 using System.Xml;
 using System.ServiceModel.Syndication;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 
 namespace business
 {
@@ -16,7 +20,6 @@ namespace business
         }
 
         public async Task<Podcast> HamtaPodcastFranRSSAsync(string URL)
-        //Hämta och sparar podcastavsnitt från 1 RSS-flöde till repositoryn
         {
             if (!utilities.Validator.IsValidUrl(URL))
             {
@@ -24,15 +27,23 @@ namespace business
             }
 
             try
-                {
-                    // hämtar RSS-flödet som en string
-                    string xmlContent = await httpClient.GetStringAsync(URL);
+            {
+                // Hämtar RSS-flödet som en sträng
+                string xmlContent = await httpClient.GetStringAsync(URL);
 
-                    using (var stringReader = new StringReader(xmlContent))
-                    using (XmlReader xmlReader = XmlReader.Create(stringReader))
+                using (var stringReader = new StringReader(xmlContent))
+                using (XmlReader xmlReader = XmlReader.Create(stringReader))
+                {
+                    SyndicationFeed podcastFlode = SyndicationFeed.Load(xmlReader);
+
+                    // Kontrollera att flödet och dess titel finns
+                    if (podcastFlode == null || string.IsNullOrEmpty(podcastFlode.Title?.Text))
                     {
-                        SyndicationFeed podcastFlode = SyndicationFeed.Load(xmlReader);
-                        Podcast enPodcast = new Podcast(podcastFlode.Title.Text, URL); // podcastnamn
+                        throw new Exception("Flödet kunde inte läsas eller har ingen titel.");
+                    }
+
+                    // Skapar en ny Podcast med titel och URL
+                    Podcast enPodcast = new Podcast(podcastFlode.Title.Text, URL);
 
                         foreach (SyndicationItem item in podcastFlode.Items)
                         {
@@ -46,14 +57,14 @@ namespace business
                             }
                         }
 
-                        podcastRepository.LaggTillPodcast(enPodcast); // sparar podcast
-                        return enPodcast;
-                    }
+                    // Lägger till podcasten i repository
+                    podcastRepository.LaggTillPodcast(enPodcast);
+                    return enPodcast;
                 }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Fel vid hämtning: {ex.Message}", ex);
-
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Fel vid hämtning: {ex.Message}", ex);
             }
         }
 
