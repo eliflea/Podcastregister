@@ -423,7 +423,9 @@ namespace podcast_grupp18
             }
         }
 
-        private void btnSpara_Click(object sender, EventArgs e)
+        
+
+        private void btnSpara_Click_1(object sender, EventArgs e)
         {
             if (lvwPodcastDetaljer.SelectedItems.Count > 0)
             {
@@ -493,6 +495,8 @@ namespace podcast_grupp18
             // Ladda om alla podcasts
             LoadPodcasts();
         }
+
+       
     }
 }
 
