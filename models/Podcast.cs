@@ -5,6 +5,8 @@ namespace models
     [XmlRoot("Podcast")]
     public class Podcast
     {
+        public string valtNamn;
+
         [XmlArray("AvsnittLista")]
         [XmlArrayItem("Avsnitt")]
         public List<Avsnitt> AvsnittLista { get; set; } // podcast-titlar

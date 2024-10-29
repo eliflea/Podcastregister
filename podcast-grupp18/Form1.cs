@@ -413,29 +413,24 @@ namespace podcast_grupp18
 
         private void btnAndraFlode_Click(object sender, EventArgs e)
         {
-            if (lvwPodcastDetaljer.SelectedItems.Count > 0)
-            {
-                // Hämta vald podcast
-                Podcast valdPodcast = lvwPodcastDetaljer.SelectedItems[0].Tag as Podcast;
 
-                if (valdPodcast != null)
-                {
-                    // Fyll i fälten med aktuell information
-                    textBox1.Text = valdPodcast.Namn; // Sätt namnet
-                    comboBox2.SelectedItem = valdPodcast.Kategori; // Sätt kategorin
-
-                    // Gör textBox1 och comboBox2 synliga (om de inte är det)
-                    textBox1.Visible = true;
-                    comboBox2.Visible = true;
-                }
-            }
-            else
+            if (lvwPodcastDetaljer.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Vänligen välj en podcast att ändra.");
+                return;
             }
+
+            ListViewItem selectedItem = lvwPodcastDetaljer.SelectedItems[0];
+            Podcast selectedPodcast = (Podcast)selectedItem.Tag;
+
+            // Fyll i textBox1 och comboBox2 med nuvarande värden
+            textBox1.Text = selectedItem.SubItems[1].Text; // Namn
+            comboBox2.SelectedItem = selectedPodcast.Kategori; // Kategori
         }
 
-        private void btnSpara_Click(object sender, EventArgs e)
+
+
+        private void btnSpara_Click_1(object sender, EventArgs e)
         {
             if (lvwPodcastDetaljer.SelectedItems.Count > 0)
             {
@@ -504,6 +499,16 @@ namespace podcast_grupp18
 
             // Ladda om alla podcasts
             LoadPodcasts();
+        }
+
+        private void Form1_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
