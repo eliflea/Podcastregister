@@ -2,16 +2,24 @@
 
 namespace models
 {
+    [XmlRoot("Podcast")]
     public class Podcast
     {
         [XmlArray("AvsnittLista")]
         [XmlArrayItem("Avsnitt")]
         public List<Avsnitt> AvsnittLista { get; set; } // podcast-titlar
-        
+
+        [XmlElement("Namn")]
         public string Namn { get; set; } // podcastnamn
+
+        [XmlElement("URL")]
         public string URL { get; set; } // Podcast URL
+
+        [XmlElement("Kategori")]
         public string Kategori { get; set; }
-        public string? Titel { get; set; }
+
+        [XmlElement("Titel")]
+        public string Titel { get; set; }
 
 
         public Podcast() // För XML-seralisering
@@ -30,7 +38,6 @@ namespace models
         {
             AvsnittLista.Add(new Avsnitt(titel, url, beskrivning));
         }
-
         public List<string> HamtaAvsnittTitlar()
         {
             return AvsnittLista.Select(a => a.Titel).ToList();

@@ -1,3 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0">
-</rss>
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPodcast xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Podcast>
+    <AvsnittLista>       
+      <Avsnitt>
+        <Titel>1. Pilotavsnittet</Titel>
+        <URL>https://sphinx.acast.com/p/open/s/65fc2de9cce203001600e0a4/e/65fc30fb8c676f00168aed0a/media.mp3</URL>
+        <Beskrivning>Första avsnittet av Lojsan &amp;amp; Busters Podcast! Vilka är Lojsan &amp;amp; Buster egentligen och hur ser deras relation ut idag? Vad finns bakom den perfekta ytan som visas på sociala medier? Häng med på en podcast om sex, relationer och vardagskaos!&lt;br /&gt;&lt;hr&gt;&lt;p style='color:grey; font-size:0.75em;'&gt; Hosted on Acast. See &lt;a style='color:grey;' target='_blank' rel='noopener noreferrer' href='https://acast.com/privacy'&gt;acast.com/privacy&lt;/a&gt; for more information.&lt;/p&gt;</Beskrivning>
+      </Avsnitt>
+      <Avsnitt>
+        <Titel>Trailer: Lojsan &amp; Buster</Titel>
+        <URL>https://sphinx.acast.com/p/open/s/65fc2de9cce203001600e0a4/e/65fc49b9995e830016a708ac/media.mp3</URL>
+        <Beskrivning>Poddlansering av "Lojsan &amp;amp; Buster" 27 mars!&lt;br /&gt;&lt;hr&gt;&lt;p style='color:grey; font-size:0.75em;'&gt; Hosted on Acast. See &lt;a style='color:grey;' target='_blank' rel='noopener noreferrer' href='https://acast.com/privacy'&gt;acast.com/privacy&lt;/a&gt; for more information.&lt;/p&gt;</Beskrivning>
+      </Avsnitt>
+    </AvsnittLista>
+    <Namn>Lojsan &amp; Buster</Namn>
+    <URL>https://feeds.acast.com/public/shows/65fc2de9cce203001600e0a4</URL>
+    <Kategori>ee</Kategori>
+  </Podcast>
+</ArrayOfPodcast>

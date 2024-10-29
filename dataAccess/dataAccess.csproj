@@ -7,11 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="data.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.ServiceModel.Syndication" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <Page Include="data.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\models\models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="PodcastRepository.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 
 </Project>

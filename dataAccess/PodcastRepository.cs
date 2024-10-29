@@ -7,17 +7,20 @@ namespace dataAccess
     public class PodcastRepository
     {
         private List<Podcast> PodcastLista;
-        private readonly string FilePath = "data.xml";
+        private readonly string FilePath;
         private List<string> KategoriLista;
-        private readonly string KategoriFilePath = "kategorier.xml";
-
+        private readonly string KategoriFilePath;
 
         public PodcastRepository()
         {
-            PodcastLista = LaddaFranFil();
+            string relativePodcastPath = @"..\..\dataAccess\data.xml"; 
+            string relativeKategoriPath = @"..\..\dataAccess\kategorier.xml";
+
+            FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativePodcastPath);
+            KategoriFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeKategoriPath);
+       
+             PodcastLista = LaddaFranFil();
             KategoriLista = LaddaKategorierFranFil();
-
-
         }
         public void LaggTillKategori(string kategori)
         {
@@ -31,7 +34,7 @@ namespace dataAccess
                 throw new Exception("Kategorin finns redan.");
             }
         }
-
+        
         public void TaBortKategori(string kategori)
         {
             if (KategoriLista.Contains(kategori))
@@ -50,7 +53,7 @@ namespace dataAccess
         {
             return KategoriLista;
         }
-
+        
         public void SparaKategorierTillFil()
         {
             var serializer = new XmlSerializer(typeof(List<string>));
@@ -132,6 +135,7 @@ namespace dataAccess
         {
             if (PodcastLista.Remove(podcast)) // Försök att ta bort podcasten
             {
+                
                 SparaTillFil(); // Spara den uppdaterade listan till XML
             }
             else

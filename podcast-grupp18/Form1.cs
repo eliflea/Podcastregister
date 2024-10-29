@@ -1,7 +1,9 @@
 ﻿using business;
 using dataAccess;
 using models;
+using System.Text.RegularExpressions;
 using utilities;
+using System.Linq;
 
 namespace podcast_grupp18
 {
@@ -55,26 +57,28 @@ namespace podcast_grupp18
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Spara kategorier vid stängning
-            podcastRepository.SparaKategorierTillFil(); // Anropa metoden direkt från podcastRepository
+            podcastRepository.SparaKategorierTillFil(); 
         }
 
 
         private void LoadPodcasts()
         {
+            lvwPodcastDetaljer.Items.Clear();
             var podcasts = podcastRepository.HamtaAllaPodcast();
-            foreach (var podcast in podcasts)
-                if (podcasts.Any())
-                {
-                    int antalAvsnitt = podcast.HamtaAvsnitt().Count;
-                    ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
-                    podcastItem.SubItems.Add(string.Empty);  // 2 KOLUMN för framtida använde
-                    podcastItem.SubItems.Add(podcast.Namn);
-                    podcastItem.Tag = podcast; //lägger podcasten i en tag... används för att kunna se specifika avsnitt
-                    lvwPodcastDetaljer.Items.Add(podcastItem);
-                }
-        }
 
+            foreach (var podcast in podcasts)
+            {
+                var podcastItem = new ListViewItem(podcast.HamtaAvsnitt().Count().ToString());
+                podcastItem.SubItems.Add(podcast.Namn);
+                podcastItem.SubItems.Add(podcast.Titel);
+                podcastItem.SubItems.Add(""); // lägg till frekvens
+                podcastItem.SubItems.Add(podcast.Kategori);
+
+                podcastItem.Tag = podcast;
+                lvwPodcastDetaljer.Items.Add(podcastItem);
+            }
+        }
+        
         private void LaddaKategorier()
         {
             var kategorier = podcastRepository.HamtaAllaKategorier();
@@ -85,7 +89,7 @@ namespace podcast_grupp18
                 filtreraKategori.Items.Add(kategori);
             }
         }
-
+       
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -136,7 +140,7 @@ namespace podcast_grupp18
                 // Hämta podcast från RSS asynkront
                 Podcast podcast = await podcastController.HamtaPodcastFranRSSAsync(url);
 
-                // Kontrollera om podcasten och dess avsnitt har hämtats
+                // kontrollera om podcasten och dess avsnitt har hämtats
                 if (podcast == null || !podcast.HamtaAvsnitt().Any())
                 {
                     MessageBox.Show("Podcasten kunde inte laddas eller innehåller inga avsnitt.", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -168,7 +172,7 @@ namespace podcast_grupp18
             }
         }
 
-
+        
         private void läggTillKategori_Click_1(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(kategoriTextBox.Text))
@@ -193,7 +197,7 @@ namespace podcast_grupp18
         }
 
         private void taBortKategori_Click(object sender, EventArgs e)
-        {
+        { 
 
             if (listBoxKategori.SelectedItem != null)
 
@@ -227,11 +231,11 @@ namespace podcast_grupp18
             else
             {
                 MessageBox.Show("Vänligen välj en kategori att ta bort.");
-            }
+            } 
         }
 
         private void ändraKategori_Click(object sender, EventArgs e)
-        {
+        {  
             // Kontrollera om något objekt är valt
             if (listBoxKategori.SelectedItem != null)
             {
@@ -269,7 +273,7 @@ namespace podcast_grupp18
             else
             {
                 MessageBox.Show("Vänligen välj en kategori att ändra.");
-            }
+           } 
         }
 
         private void listBoxKategori_SelectedIndexChanged(object sender, EventArgs e)
@@ -277,9 +281,9 @@ namespace podcast_grupp18
             if (listBoxKategori.SelectedItem != null)
             {
                 kategoriTextBox.Text = listBoxKategori.SelectedItem.ToString();
-            }
+            } 
         }
-
+        
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -316,11 +320,15 @@ namespace podcast_grupp18
             }
             else
             {
+                // linq reverse
+                var reversedList = avsnittLista.AsEnumerable().Reverse().ToList();
                 int avsnittNummer = 1;
 
-                foreach (var avsnitt in avsnittLista)
+                foreach (var avsnitt in reversedList)
                 {
-                    var listViewItem = new ListViewItem($"{avsnittNummer}. {avsnitt.Titel}");
+                    string utanNummer = Regex.Replace(avsnitt.Titel, @"^\d+\.\s*", string.Empty).Trim();
+
+                    var listViewItem = new ListViewItem($"{avsnittNummer}. {utanNummer}"); 
                     listViewItem.Tag = avsnitt;
                     lvwAvsnitt.Items.Add(listViewItem);
 
@@ -351,6 +359,10 @@ namespace podcast_grupp18
                         podcastRepository.TaBortPodcast(valdPodcast); // Ta bort podcasten från repository
                         lvwPodcastDetaljer.Items.Remove(lvwPodcastDetaljer.SelectedItems[0]); // Ta bort från ListView
                         lvwAvsnitt.Items.Clear(); // Rensa avsnitt
+
+                        // Reload the list to ensure it's up-to-date
+                        LoadPodcasts();
+
                         MessageBox.Show($"Podcasten '{valdPodcast.Namn}' har tagits bort.");
                     }
                     catch (Exception ex)
