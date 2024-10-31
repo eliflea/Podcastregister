@@ -1,5 +1,4 @@
-﻿using System.Xml.Linq;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using models;
 
 namespace dataAccess
@@ -13,8 +12,8 @@ namespace dataAccess
 
         public PodcastRepository()
         {
-            string relativePodcastPath = @"..\..\dataAccess\data.xml"; 
-            string relativeKategoriPath = @"..\..\dataAccess\kategorier.xml";
+            string relativePodcastPath = @"C:\Users\leyla\OneDrive\Skrivbord\podcast-grupp18\dataAccess\data.xml"; 
+            string relativeKategoriPath = @"C:\Users\leyla\OneDrive\Skrivbord\podcast-grupp18\dataAccess\kategorier.xmll";
 
             FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativePodcastPath);
             KategoriFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeKategoriPath);

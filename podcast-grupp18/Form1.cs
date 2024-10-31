@@ -69,8 +69,8 @@ namespace podcast_grupp18
             foreach (var podcast in podcasts)
             {
                 var podcastItem = new ListViewItem(podcast.HamtaAvsnitt().Count().ToString());
-                podcastItem.SubItems.Add(podcast.Namn);
                 podcastItem.SubItems.Add(podcast.Titel);
+                podcastItem.SubItems.Add(podcast.Namn);
                 podcastItem.SubItems.Add(""); // lägg till frekvens
                 podcastItem.SubItems.Add(podcast.Kategori);
 
