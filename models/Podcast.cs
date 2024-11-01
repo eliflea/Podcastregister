@@ -56,6 +56,7 @@ namespace models
             var episode = AvsnittLista.FirstOrDefault(e => e.Titel == titel);
             return episode?.URL;
         }
+
         public IReadOnlyList<Avsnitt> HamtaAvsnitt()
         {
             return AvsnittLista.AsReadOnly();

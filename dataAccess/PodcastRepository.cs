@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 using models;
 
 namespace dataAccess
@@ -13,12 +14,12 @@ namespace dataAccess
         public PodcastRepository()
         {
             string relativePodcastPath = @"C:\Users\leyla\OneDrive\Skrivbord\podcast-grupp18\dataAccess\data.xml"; 
-            string relativeKategoriPath = @"C:\Users\leyla\OneDrive\Skrivbord\podcast-grupp18\dataAccess\kategorier.xmll";
+            string relativeKategoriPath = @"C:\Users\leyla\OneDrive\Skrivbord\podcast-grupp18\dataAccess\kategorier.xml";
 
             FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativePodcastPath);
             KategoriFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeKategoriPath);
        
-             PodcastLista = LaddaFranFil();
+            PodcastLista = LaddaFranFil();
             KategoriLista = LaddaKategorierFranFil();
         }
         public void LaggTillKategori(string kategori)
@@ -90,16 +91,13 @@ namespace dataAccess
 
         public void LaggTillPodcast(Podcast podcast)
         {
-
-            if (PodcastLista.Any(p => p.URL == podcast.URL))
+            /*if (PodcastLista.Any(p => p.URL == podcast.URL))
             {
                 throw new Exception("Angiven podcast finns redan.");
-            }
-            else
-            {
-                PodcastLista.Add(podcast);
-                SparaTillFil();
-            }
+            }*/
+
+            PodcastLista.Add(podcast);
+            SparaTillFil();
         }
 
         public List<Podcast> HamtaAllaPodcast()
@@ -109,10 +107,10 @@ namespace dataAccess
 
         private void SparaTillFil()
         {
-            var serializer = new XmlSerializer(typeof(List<Podcast>));
-            using (var writer = new StreamWriter(FilePath))
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Podcast>));
+            using (FileStream fs = new FileStream(FilePath, FileMode.Create))
             {
-                serializer.Serialize(writer, PodcastLista);
+                serializer.Serialize(fs, PodcastLista);
             }
         }
 
@@ -132,17 +130,17 @@ namespace dataAccess
 
         public void TaBortPodcast(Podcast podcast)
         {
-            if (PodcastLista.Remove(podcast)) // Försök att ta bort podcasten
+
+            if (PodcastLista.Contains(podcast))
             {
-                
-                SparaTillFil(); // Spara den uppdaterade listan till XML
+                PodcastLista.Remove(podcast);
+                SparaTillFil();
             }
             else
             {
-                throw new Exception("Podcasten kunde inte hittas.");
+                throw new Exception("Podcasten finns inte i listan.");
             }
         }
-       
 
     }
 }
