@@ -10,10 +10,11 @@ namespace business
 {
     public class PodcastController : IPodcastService
     {
-        private readonly PodcastRepository podcastRepository;
-        public PodcastController()
+        private readonly IPodcastRepository podcastRepository;
+
+        public PodcastController(IPodcastRepository podcastRepository)
         {
-            podcastRepository = new PodcastRepository();
+            this.podcastRepository = podcastRepository;
         }
 
         public async Task<Podcast> HamtaPodcastFranRSSAsync(string URL)
