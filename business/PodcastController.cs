@@ -1,7 +1,9 @@
-﻿using dataAccess;
-using models;
+﻿using models;
+using dataAccess;
+using interfaces;
 using System.Xml;
 using System.ServiceModel.Syndication;
+using System.Text.RegularExpressions;
 
 namespace business
 {
@@ -88,6 +90,41 @@ namespace business
         public List<Podcast> HamtaAllaPodcast()
         {
             return podcastRepository.HamtaAllaPodcast();
+        }
+
+        public void SparaKategorierTillFil()
+        {
+            podcastRepository.SparaKategorierTillFil();
+        }
+
+        public List<string> HamtaAllaKategorier()
+        {
+            return podcastRepository.HamtaAllaKategorier();
+        }
+
+        public void LaggTillKategori(string kategori)
+        {
+            podcastRepository.LaggTillKategori(kategori);
+        }
+
+        public void TaBortKategori(string kategori)
+        {
+            podcastRepository.TaBortKategori(kategori);
+        }
+
+        public void AndraKategori(int index, string nyKategori)
+        {
+            podcastRepository.AndraKategori(index, nyKategori);
+        }
+
+        public void TaBortPodcast(Podcast podcast)
+        {
+            podcastRepository.TaBortPodcast(podcast);
+        }
+
+        public string TaBortHtmlTags(string input)
+        {
+            return Regex.Replace(input, "<.*?>", string.Empty);
         }
     }
 }

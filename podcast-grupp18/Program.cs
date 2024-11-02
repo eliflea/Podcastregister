@@ -1,4 +1,6 @@
-﻿using System;
+﻿using business;
+using interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +18,8 @@ namespace podcast_grupp18
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            IPodcastService podcastService = new PodcastController(); 
+            Application.Run(new Form1(podcastService));
         }
     }
 }

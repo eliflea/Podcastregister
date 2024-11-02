@@ -13,13 +13,9 @@ namespace dataAccess
 
         public PodcastRepository()
         {
-            // Försök att sätta sökvägar till XML-filerna
+            // att sätta sökvägar till XML-filerna
             FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"dataAccess\data.xml");
             KategoriFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"dataAccess\kategorier.xml");
-
-            // Logga värden för felsökning
-            Console.WriteLine("FilePath: " + FilePath);
-            Console.WriteLine("KategoriFilePath: " + KategoriFilePath);
 
             PodcastLista = LaddaFranFil();
             KategoriLista = LaddaKategorierFranFil();
@@ -65,11 +61,12 @@ namespace dataAccess
             }
 
             // Kontrollera och skapa katalogen om den saknas
-            string directoryPath = Path.GetDirectoryName(KategoriFilePath);
-            if (!Directory.Exists(directoryPath) && directoryPath != null)
+            string? directoryPath = Path.GetDirectoryName(KategoriFilePath);
+            if (!string.IsNullOrEmpty(directoryPath) && !Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
             }
+          
 
             var serializer = new XmlSerializer(typeof(List<string>));
             using (var writer = new StreamWriter(KategoriFilePath))
@@ -88,7 +85,8 @@ namespace dataAccess
             var serializer = new XmlSerializer(typeof(List<string>));
             using (var reader = new StreamReader(KategoriFilePath))
             {
-                return (List<string>)serializer.Deserialize(reader);
+                var result = serializer.Deserialize(reader) as List<string>;
+                return result ?? new List<string>();
             }
         }
 
@@ -139,7 +137,8 @@ namespace dataAccess
             var serializer = new XmlSerializer(typeof(List<Podcast>));
             using (var reader = new StreamReader(FilePath))
             {
-                return (List<Podcast>)serializer.Deserialize(reader);
+                var result = serializer.Deserialize(reader) as List<Podcast>;
+                return result ?? new List<Podcast>();
             }
         }
 
