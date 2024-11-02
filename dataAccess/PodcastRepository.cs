@@ -113,7 +113,23 @@ namespace dataAccess
             SparaTillFil();
         }
 
-        public List<Podcast> HamtaAllaPodcast()
+        //METODÖVERLAGRING EXEMPEL
+        public void AddPodcast(string name, string category)
+        {
+            // Logik för att lägga till en podcast med namn och kategori
+        }
+
+        public void AddPodcast(string name, string category, int episodeCount)
+        {
+            // Logik för att lägga till en podcast med namn, kategori och antal avsnitt
+        }
+
+        public void AddPodcast(Podcast podcast)
+        {
+            // Logik för att lägga till en podcast via en Podcast-objektparameter
+        }
+
+    public List<Podcast> HamtaAllaPodcast()
         {
             return PodcastLista;
         }
