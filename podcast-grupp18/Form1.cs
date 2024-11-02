@@ -26,7 +26,7 @@ namespace podcast_grupp18
             int totalWidth = lvwPodcastDetaljer.ClientSize.Width;
             int columnWidth = totalWidth / 5;
 
-            string[] columns = { "Antal avsnitt", "Namn", "Titel", "Frekvens", "Kategori" };
+            string[] columns = { "Antal avsnitt", "Namn", "Titel", "Kategori" };
             foreach (var column in columns)
             {
                 lvwPodcastDetaljer.Columns.Add(column, columnWidth);
@@ -84,7 +84,6 @@ namespace podcast_grupp18
             };
             podcastItem.SubItems.Add(textBox1.Text.Trim());
             podcastItem.SubItems.Add(nyPodcast.Namn);
-            podcastItem.SubItems.Add(""); // Frekvens
             podcastItem.SubItems.Add(kategori);
             lvwPodcastDetaljer.Items.Add(podcastItem);
             lvwPodcastDetaljer.Refresh();
@@ -100,7 +99,6 @@ namespace podcast_grupp18
                 var podcastItem = new ListViewItem(podcast.HamtaAvsnitt().Count().ToString());
                 podcastItem.SubItems.Add(podcast.Titel);
                 podcastItem.SubItems.Add(podcast.Namn);
-                podcastItem.SubItems.Add(""); // lägg till frekvens
                 podcastItem.SubItems.Add(podcast.Kategori);
 
                 podcastItem.Tag = podcast;
@@ -227,10 +225,7 @@ namespace podcast_grupp18
 
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        //private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e){}
 
         private void lvwPodcastDetaljer_SelectedIndexChanged(object? sender, EventArgs e)
         {
@@ -377,7 +372,7 @@ namespace podcast_grupp18
                     if (!string.IsNullOrWhiteSpace(nyKategori))
                     {
                         valdPodcast.Kategori = nyKategori; // Uppdatera podcastens kategori
-                        lvwPodcastDetaljer.SelectedItems[0].SubItems[4].Text = nyKategori; // Uppdatera ListView
+                        lvwPodcastDetaljer.SelectedItems[0].SubItems[3].Text = nyKategori; // Uppdatera ListView
                     }
 
                     MessageBox.Show("Ändringar sparades.");
@@ -409,7 +404,6 @@ namespace podcast_grupp18
                     ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
                     podcastItem.SubItems.Add(podcast.Namn);
                     podcastItem.SubItems.Add(podcast.Titel ?? "Ingen titel");
-                    podcastItem.SubItems.Add("Frekvens"); // Lägg till om du har frekvens
                     podcastItem.SubItems.Add(podcast.Kategori);
                     podcastItem.Tag = podcast;
 
