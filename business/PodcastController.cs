@@ -4,6 +4,7 @@ using interfaces;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using utilities;
+using System.Web;
 
 namespace business
 {
@@ -106,7 +107,8 @@ namespace business
 
         public string TaBortHtmlTags(string input)
         {
-            return Regex.Replace(input, "<.*?>", string.Empty);
+            string cleanInput = Regex.Replace(input, "<.*?>", string.Empty);
+            return HttpUtility.HtmlDecode(cleanInput);
         }
     }
 }

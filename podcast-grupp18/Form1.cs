@@ -336,11 +336,6 @@ namespace podcast_grupp18
             }
         }
 
-        private string TaBortHtmlTags(string input)
-        {
-            return System.Text.RegularExpressions.Regex.Replace(input, "<.*?>", string.Empty);
-        }
-
         private void btnAndraFlode_Click(object sender, EventArgs e)
         {
 
