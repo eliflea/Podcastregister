@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using System.ServiceModel.Syndication;
+﻿using System.ServiceModel.Syndication;
 using System.Xml;
 
 namespace utilities

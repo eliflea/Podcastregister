@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using models;
 using interfaces;
 
@@ -7,9 +6,9 @@ namespace dataAccess
 {
     public class PodcastRepository : IPodcastRepository
     {
-        private List<Podcast> PodcastLista;
+        private List<Podcast> PodcastLista { get; }
         private readonly string FilePath;
-        private List<string> KategoriLista;
+        private List<string> KategoriLista { get; }
         private readonly string KategoriFilePath;
 
         public PodcastRepository()
@@ -48,10 +47,7 @@ namespace dataAccess
             }
         }
 
-        public List<string> HamtaAllaKategorier()
-        {
-            return KategoriLista;
-        }
+        public List<string> HamtaAllaKategorier() => KategoriLista;
 
         public void SparaKategorierTillFil()
         {
@@ -130,10 +126,7 @@ namespace dataAccess
             // Logik för att lägga till en podcast via en Podcast-objektparameter
         }
 
-    public List<Podcast> HamtaAllaPodcast()
-        {
-            return PodcastLista;
-        }
+        public List<Podcast> HamtaAllaPodcast() => PodcastLista;
 
         private void SparaTillFil()
         {

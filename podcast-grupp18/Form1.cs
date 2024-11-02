@@ -12,14 +12,14 @@ namespace podcast_grupp18
         {
             InitializeComponent();
             this.podcastService = podcastService;
-            this.Load += new System.EventHandler(KolumnRader);
-            this.Load += new System.EventHandler(Form1_Load);
+
+            Load += KolumnRader;
+            Load += Form1_Load;
             lvwPodcastDetaljer.SelectedIndexChanged += lvwPodcastDetaljer_SelectedIndexChanged;
-            this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
+            FormClosing += Form1_FormClosing;
             LaddaKategorier();
             filtreraKategori.SelectedIndexChanged += filtreraKategori_SelectedIndexChanged;
         }
-
 
         private void KolumnRader(object? sender, EventArgs e)
         {
@@ -38,7 +38,6 @@ namespace podcast_grupp18
         private void Form1_Load(object? sender, EventArgs e) => LoadPodcasts();
 
         private void Form1_FormClosing(object? sender, FormClosingEventArgs e) => podcastService.SparaKategorierTillFil();
-
 
         private void LaddaKategorier()
         {
@@ -422,7 +421,6 @@ namespace podcast_grupp18
         private void btnAterstall_Click(object sender, EventArgs e)
         {
             filtreraKategori.SelectedIndex = -1; 
-
             LoadPodcasts();
         }
 
@@ -431,8 +429,7 @@ namespace podcast_grupp18
 
 
         private void label2_Click(object sender, EventArgs e)
-        { }
-        
+        { } 
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         { }

@@ -1,5 +1,4 @@
 ﻿using models;
-using dataAccess;
 using interfaces;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
@@ -70,46 +69,13 @@ namespace business
             podcastRepository.LaggTillPodcast(podcast);
         }
 
-
-        public List<Podcast> HamtaAllaPodcast()
-        {
-            return podcastRepository.HamtaAllaPodcast();
-        }
-
-        public void SparaKategorierTillFil()
-        {
-            podcastRepository.SparaKategorierTillFil();
-        }
-
-        public List<string> HamtaAllaKategorier()
-        {
-            return podcastRepository.HamtaAllaKategorier();
-        }
-
-        public void LaggTillKategori(string kategori)
-        {
-            podcastRepository.LaggTillKategori(kategori);
-        }
-
-        public void TaBortKategori(string kategori)
-        {
-            podcastRepository.TaBortKategori(kategori);
-        }
-
-        public void AndraKategori(int index, string nyKategori)
-        {
-            podcastRepository.AndraKategori(index, nyKategori);
-        }
-
-        public void TaBortPodcast(Podcast podcast)
-        {
-            podcastRepository.TaBortPodcast(podcast);
-        }
-
-        public string TaBortHtmlTags(string input)
-        {
-            string cleanInput = Regex.Replace(input, "<.*?>", string.Empty);
-            return HttpUtility.HtmlDecode(cleanInput);
-        }
+        public List<Podcast> HamtaAllaPodcast() => podcastRepository.HamtaAllaPodcast();
+        public void SparaKategorierTillFil() => podcastRepository.SparaKategorierTillFil();
+        public List<string> HamtaAllaKategorier() => podcastRepository.HamtaAllaKategorier();
+        public void LaggTillKategori(string kategori) => podcastRepository.LaggTillKategori(kategori);
+        public void TaBortKategori(string kategori) => podcastRepository.TaBortKategori(kategori);
+        public void AndraKategori(int index, string nyKategori) => podcastRepository.AndraKategori(index, nyKategori);
+        public void TaBortPodcast(Podcast podcast) => podcastRepository.TaBortPodcast(podcast);
+        public string TaBortHtmlTags(string input) => HttpUtility.HtmlDecode(Regex.Replace(input, "<.*?>", string.Empty));
     }
 }
