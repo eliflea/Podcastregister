@@ -14,7 +14,7 @@ namespace dataAccess
 
         public PodcastRepository()
         {
-            // att sätta sökvägar till XML-filerna
+            // sätta sökvägar till XML-filerna
             FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"dataAccess\data.xml");
             KategoriFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"dataAccess\kategorier.xml");
 

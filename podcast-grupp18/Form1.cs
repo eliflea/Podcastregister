@@ -6,10 +6,7 @@ namespace podcast_grupp18
 {
     public partial class Form1 : Form
     {
-       // private PodcastController podcastController;
-       //private PodcastRepository podcastRepository;
         private readonly IPodcastService podcastService;
-
 
         public Form1(IPodcastService podcastService)
         {
@@ -18,8 +15,6 @@ namespace podcast_grupp18
             this.Load += new System.EventHandler(KolumnRader);
             this.Load += new System.EventHandler(Form1_Load);
             lvwPodcastDetaljer.SelectedIndexChanged += lvwPodcastDetaljer_SelectedIndexChanged;
-            //podcastController = new PodcastController();
-           // podcastRepository = new PodcastRepository();
             this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
             LaddaKategorier();
             filtreraKategori.SelectedIndexChanged += filtreraKategori_SelectedIndexChanged;
@@ -29,29 +24,22 @@ namespace podcast_grupp18
         private void KolumnRader(object? sender, EventArgs e)
         {
             int totalWidth = lvwPodcastDetaljer.ClientSize.Width;
+            int columnWidth = totalWidth / 5;
 
-            int columnWidth = totalWidth / 5; //5 kolumn
+            string[] columns = { "Antal avsnitt", "Namn", "Titel", "Frekvens", "Kategori" };
+            foreach (var column in columns)
+            {
+                lvwPodcastDetaljer.Columns.Add(column, columnWidth);
+            }
 
-            lvwPodcastDetaljer.Columns.Add("Antal avsnitt", columnWidth);
-            lvwPodcastDetaljer.Columns.Add("Namn", columnWidth);
-            lvwPodcastDetaljer.Columns.Add("Titel", columnWidth);
-            lvwPodcastDetaljer.Columns.Add("Frekvens", columnWidth);
-            lvwPodcastDetaljer.Columns.Add("Kategori", columnWidth);
-
-            // För avsnitt
             lvwAvsnitt.Columns.Add("Avsnitt", lvwAvsnitt.ClientSize.Width);
         }
 
-        private void Form1_Load(object? sender, EventArgs e)
-        {
-            LoadPodcasts();
-        }
+        private void Form1_Load(object? sender, EventArgs e) => LoadPodcasts();
 
-        private void Form1_FormClosing(object? sender, FormClosingEventArgs e)
-        {
-            podcastService.SparaKategorierTillFil();
-        }
-        
+        private void Form1_FormClosing(object? sender, FormClosingEventArgs e) => podcastService.SparaKategorierTillFil();
+
+
         private void LaddaKategorier()
         {
             var kategorier = podcastService.HamtaAllaKategorier();
@@ -61,22 +49,6 @@ namespace podcast_grupp18
                 comboBox2.Items.Add(kategori);
                 filtreraKategori.Items.Add(kategori);
             }
-        }
-       
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -91,18 +63,7 @@ namespace podcast_grupp18
                 var nyPodcast = await podcastService.HamtaPodcastFranRSSAsync(url);
                 if (nyPodcast != null)
                 {
-                    ListViewItem podcastItem = new ListViewItem(nyPodcast.HamtaAvsnitt().Count().ToString());
-                    string podcastNamn = textBox1.Text.Trim();
-                    string valdKategori = comboBox2.SelectedItem?.ToString() ?? "";
-
-                    podcastItem.SubItems.Add(podcastNamn);
-                    podcastItem.SubItems.Add(nyPodcast.Namn);
-                    podcastItem.SubItems.Add(""); // lägg till frekvens
-                    podcastItem.SubItems.Add(valdKategori);
-
-                    podcastItem.Tag = nyPodcast;
-                    lvwPodcastDetaljer.Items.Add(podcastItem);
-                    lvwPodcastDetaljer.Refresh();   
+                    LaggTillPodcastsListView(nyPodcast, kategori);
                 }
 
                 // Tar bort texten i rutorna
@@ -114,6 +75,20 @@ namespace podcast_grupp18
             {
                 MessageBox.Show("Ett fel uppstod: " + ex.Message, "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void LaggTillPodcastsListView(Podcast nyPodcast, string kategori)
+        {
+            var podcastItem = new ListViewItem(nyPodcast.HamtaAvsnitt().Count.ToString())
+            {
+                Tag = nyPodcast
+            };
+            podcastItem.SubItems.Add(textBox1.Text.Trim());
+            podcastItem.SubItems.Add(nyPodcast.Namn);
+            podcastItem.SubItems.Add(""); // Frekvens
+            podcastItem.SubItems.Add(kategori);
+            lvwPodcastDetaljer.Items.Add(podcastItem);
+            lvwPodcastDetaljer.Refresh();
         }
 
         private void LoadPodcasts()
@@ -261,12 +236,9 @@ namespace podcast_grupp18
         private void lvwPodcastDetaljer_SelectedIndexChanged(object? sender, EventArgs e)
         {
             //Visar avsnitt för vald podcast (om man klickar på en rad)
-            if (lvwPodcastDetaljer.SelectedItems.Count > 0)
+            if (lvwPodcastDetaljer.SelectedItems.Count > 0 && lvwPodcastDetaljer.SelectedItems[0].Tag is Podcast valdPodcast)
             {
-                if (lvwPodcastDetaljer.SelectedItems[0].Tag is Podcast valdPodcast)
-                {
-                    DisplayEpisodes(valdPodcast);
-                }
+                DisplayEpisodes(valdPodcast);
             }
         }
 
@@ -454,21 +426,30 @@ namespace podcast_grupp18
 
         private void btnAterstall_Click(object sender, EventArgs e)
         {
-            filtreraKategori.SelectedIndex = -1; // Avmarkera vald kategori i comboBox
+            filtreraKategori.SelectedIndex = -1; 
 
-            // Ladda om alla podcasts
             LoadPodcasts();
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
-        {
+        { }
 
-        }
 
         private void label2_Click(object sender, EventArgs e)
-        {
+        { }
+        
 
-        }
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        { }
+
+
+        private void label1_Click(object sender, EventArgs e)
+        { }
+
+
+        private void label3_Click(object sender, EventArgs e)
+        { }
+
     }
 }
 

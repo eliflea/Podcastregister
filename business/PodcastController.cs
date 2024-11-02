@@ -19,7 +19,7 @@ namespace business
         {
                 try
                 {
-                    SyndicationFeed podcastFeed = await Rss.FetchaRssFeedAsync(URL); // Use Rss.FetchRssFeedAsync
+                    SyndicationFeed podcastFeed = await Rss.FetchaRssFeedAsync(URL); 
 
                     if (podcastFeed == null || string.IsNullOrEmpty(podcastFeed.Title?.Text))
                     {
