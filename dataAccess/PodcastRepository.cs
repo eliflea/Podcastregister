@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 using models;
+using interfaces;
 
 namespace dataAccess
 {
-    public class PodcastRepository
+    public class PodcastRepository : IPodcastRepository
     {
         private List<Podcast> PodcastLista;
         private readonly string FilePath;
