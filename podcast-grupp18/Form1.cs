@@ -1,6 +1,7 @@
 ﻿using models;
 using interfaces;
 using System.Text.RegularExpressions;
+using System.Security.Policy;
 
 namespace podcast_grupp18
 {
@@ -107,24 +108,36 @@ namespace podcast_grupp18
         }
         private void läggTillKategori_Click_1(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(kategoriTextBox.Text))
+
+            string nyKategori = kategoriTextBox.Text.Trim();
+
+            // Kontrollera om kategorin är giltig
+            if (!utilities.Validator.IsValidCategory(nyKategori))
             {
-                try
-                {
-                    podcastService.LaggTillKategori(kategoriTextBox.Text);
-                    listBoxKategori.Items.Add(kategoriTextBox.Text);
-                    comboBox2.Items.Add(kategoriTextBox.Text);
-                    filtreraKategori.Items.Add(kategoriTextBox.Text);
-                    kategoriTextBox.Clear();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                MessageBox.Show("Vänligen ange en giltig kategori (minst 3 tecken).");
+                return;
             }
-            else
+
+            // Kontrollera om kategorin är unik
+            var existingCategories = listBoxKategori.Items.Cast<string>();
+            if (!utilities.Validator.IsUniqueCategory(nyKategori, existingCategories))
             {
-                MessageBox.Show("Vänligen ange en kategori.");
+                MessageBox.Show("Kategorin finns redan.");
+                return;
+            }
+
+            try
+            {
+                // Lägg till kategorin
+                podcastService.LaggTillKategori(nyKategori);
+                listBoxKategori.Items.Add(nyKategori);
+                comboBox2.Items.Add(nyKategori);
+                filtreraKategori.Items.Add(nyKategori);
+                kategoriTextBox.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -171,7 +184,8 @@ namespace podcast_grupp18
         }
 
         private void ändraKategori_Click(object sender, EventArgs e)
-        {  
+        {
+
             // Kontrollera om något objekt är valt
             if (listBoxKategori.SelectedItem != null)
             {
@@ -181,9 +195,16 @@ namespace podcast_grupp18
                 // Uppdatera den valda kategorin med texten från kategoriTextBox
                 string nyKategori = kategoriTextBox.Text.Trim();
 
-                if (string.IsNullOrWhiteSpace(nyKategori))
+                if (!utilities.Validator.IsValidCategory(nyKategori))
                 {
-                    MessageBox.Show("Vänligen ange en giltig kategori.");
+                    MessageBox.Show("Vänligen ange en giltig kategori (minst 3 tecken).");
+                    return;
+                }
+
+                var existingCategories = listBoxKategori.Items.Cast<string>();
+                if (!utilities.Validator.IsUniqueCategory(nyKategori, existingCategories))
+                {
+                    MessageBox.Show("Kategorin finns redan.");
                     return;
                 }
 
@@ -391,24 +412,24 @@ namespace podcast_grupp18
 
         private void FiltreraPodcaster(string kategori)
         {
-            lvwPodcastDetaljer.Items.Clear(); // Tömmer ListView
+             lvwPodcastDetaljer.Items.Clear(); // Tömmer ListView
 
-            var podcasts = podcastService.HamtaAllaPodcast();
+    var podcasts = podcastService.HamtaAllaPodcast()
+                    .Where(p => string.IsNullOrEmpty(kategori) || p.Kategori == kategori);
 
-            foreach (var podcast in podcasts)
-            {
-                if (string.IsNullOrEmpty(kategori) || podcast.Kategori == kategori)
-                {
-                    int antalAvsnitt = podcast.HamtaAvsnitt().Count;
-                    ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString());
-                    podcastItem.SubItems.Add(podcast.Namn);
-                    podcastItem.SubItems.Add(podcast.Titel ?? "Ingen titel");
-                    podcastItem.SubItems.Add(podcast.Kategori);
-                    podcastItem.Tag = podcast;
+    foreach (var podcast in podcasts)
+    {
+        int antalAvsnitt = podcast.HamtaAvsnitt().Count;
+        ListViewItem podcastItem = new ListViewItem(antalAvsnitt.ToString())
+        {
+            Tag = podcast
+        };
+        podcastItem.SubItems.Add(podcast.Namn);
+        podcastItem.SubItems.Add(podcast.Titel ?? "Ingen titel");
+        podcastItem.SubItems.Add(podcast.Kategori);
 
-                    lvwPodcastDetaljer.Items.Add(podcastItem);
-                }
-            }
+        lvwPodcastDetaljer.Items.Add(podcastItem);
+    }
         }
 
         private void btnAterstall_Click(object sender, EventArgs e)

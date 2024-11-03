@@ -1,4 +1,5 @@
 ﻿namespace utilities
+
 {
     public static class Validator
     {
@@ -12,6 +13,18 @@
             return !string.IsNullOrWhiteSpace(input);
         }
 
-        // Lägg till fler valideringsmetoder här!!!!
+        // Kontrollera om kategori är giltig och inte tom
+        public static bool IsValidCategory(string category)
+        {
+            return !string.IsNullOrWhiteSpace(category) && category.Length >= 3;
+        }
+
+        // Kontrollera om kategori är unik
+        public static bool IsUniqueCategory(string category, IEnumerable<string> existingCategories)
+        {
+            return !existingCategories.Contains(category, StringComparer.OrdinalIgnoreCase);
+        }
+
     }
+
 }
