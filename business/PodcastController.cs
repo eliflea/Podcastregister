@@ -75,6 +75,7 @@ namespace business
         public void LaggTillKategori(string kategori) => podcastRepository.LaggTillKategori(kategori);
         public void TaBortKategori(string kategori) => podcastRepository.TaBortKategori(kategori);
         public void AndraKategori(int index, string nyKategori) => podcastRepository.AndraKategori(index, nyKategori);
+        public void UppdateraPodcast(string url, Podcast uppdateradPodcast) => podcastRepository.UppdateraPodcast(url, uppdateradPodcast);
         public void TaBortPodcast(Podcast podcast) => podcastRepository.TaBortPodcast(podcast);
         public string TaBortHtmlTags(string input) => HttpUtility.HtmlDecode(Regex.Replace(input, "<.*?>", string.Empty));
     }

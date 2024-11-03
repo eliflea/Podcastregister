@@ -12,5 +12,6 @@ namespace interfaces
         void TaBortKategori(string kategori);
         void AndraKategori(int index, string nyKategori);
         void TaBortPodcast(Podcast podcast);
+        void UppdateraPodcast(string url, Podcast uppdateradPodcast);
     }
 }

@@ -348,7 +348,8 @@ namespace podcast_grupp18
             }
             // Fyll i textBox1 och comboBox2 med nuvarande värden
             textBox1.Text = selectedItem.SubItems[1].Text; // Namn
-            comboBox2.SelectedItem = selectedPodcast.Kategori; // Kategori
+            comboBox2.SelectedItem = selectedItem.SubItems[3].Text; // Kategori
+
         }
 
 
@@ -359,21 +360,19 @@ namespace podcast_grupp18
             {
                 if (lvwPodcastDetaljer.SelectedItems[0].Tag is Podcast valdPodcast)
                 {
-                    // Spara ändringar i namn
                     string nyttNamn = textBox1.Text.Trim();
-                    if (!string.IsNullOrWhiteSpace(nyttNamn))
-                    {
-                        valdPodcast.Namn = nyttNamn; // Uppdatera podcastens namn
-                        lvwPodcastDetaljer.SelectedItems[0].SubItems[1].Text = nyttNamn; // Uppdatera ListView
-                    }
-
-                    // Spara ändringar i kategori
                     string nyKategori = comboBox2.SelectedItem?.ToString() ?? "";
-                    if (!string.IsNullOrWhiteSpace(nyKategori))
-                    {
-                        valdPodcast.Kategori = nyKategori; // Uppdatera podcastens kategori
-                        lvwPodcastDetaljer.SelectedItems[0].SubItems[3].Text = nyKategori; // Uppdatera ListView
-                    }
+
+                    // Sätt de nya värdena
+                    if (!string.IsNullOrWhiteSpace(nyttNamn)) valdPodcast.Namn = nyttNamn;
+                    if (!string.IsNullOrWhiteSpace(nyKategori)) valdPodcast.Kategori = nyKategori;
+
+                    // Uppdatera podcasten i repository
+                    podcastService.UppdateraPodcast(valdPodcast.URL, valdPodcast);
+
+                    // Uppdatera ListView med nya värden
+                    lvwPodcastDetaljer.SelectedItems[0].SubItems[1].Text = nyttNamn; // Namn
+                    lvwPodcastDetaljer.SelectedItems[0].SubItems[3].Text = nyKategori; // Kategori
 
                     MessageBox.Show("Ändringar sparades.");
                 }

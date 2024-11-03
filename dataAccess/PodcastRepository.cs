@@ -166,5 +166,23 @@ namespace dataAccess
             }
         }
 
+        public void UppdateraPodcast(string url, Podcast uppdateradPodcast)
+        {
+            var podcast = PodcastLista.FirstOrDefault(p => p.URL == url);
+            if (podcast != null)
+            {
+                
+                podcast.Kategori = uppdateradPodcast.Kategori;
+                podcast.Titel = uppdateradPodcast.Namn;
+               
+
+                // Spara ändringarna till fil
+                SparaTillFil();
+            }
+            else
+            {
+                throw new Exception("Podcasten kunde inte hittas i listan.");
+            }
+        }
     }
 }
