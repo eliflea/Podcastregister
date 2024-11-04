@@ -1,7 +1,6 @@
 ﻿using models;
 using interfaces;
 using System.Text.RegularExpressions;
-using System.Security.Policy;
 
 namespace podcast_grupp18
 {
@@ -25,7 +24,7 @@ namespace podcast_grupp18
         private void KolumnRader(object? sender, EventArgs e)
         {
             int totalWidth = lvwPodcastDetaljer.ClientSize.Width;
-            int columnWidth = totalWidth / 5;
+            int columnWidth = totalWidth / 4;
 
             string[] columns = { "Antal avsnitt", "Namn", "Titel", "Kategori" };
             foreach (var column in columns)

@@ -5,24 +5,23 @@ namespace models
     [XmlRoot("Podcast")]
     public class Podcast
     {
-        public string valtNamn;
+        public string valtNamn { get; set; } = string.Empty;
 
         [XmlArray("AvsnittLista")]
         [XmlArrayItem("Avsnitt")]
-        public List<Avsnitt> AvsnittLista { get; set; } // podcast-titlar
+        public List<Avsnitt> AvsnittLista { get; set; } = new List<Avsnitt>();
 
         [XmlElement("Namn")]
-        public string Namn { get; set; } // podcastnamn
+        public string Namn { get; set; } = string.Empty;
 
         [XmlElement("URL")]
-        public string URL { get; set; } // Podcast URL
+        public string URL { get; set; } = string.Empty;
 
         [XmlElement("Kategori")]
-        public string Kategori { get; set; }
+        public string Kategori { get; set; } = string.Empty;
 
         [XmlElement("Titel")]
-        public string Titel { get; set; }
-
+        public string Titel { get; set; } = string.Empty;
 
         public Podcast() // För XML-seralisering
         {
@@ -51,7 +50,7 @@ namespace models
         }
 
         // hämta url baserat på titel
-        public string HamtaAvsnittUrl(string titel)
+        public string? HamtaAvsnittUrl(string titel)
         {
             var episode = AvsnittLista.FirstOrDefault(e => e.Titel == titel);
             return episode?.URL;
