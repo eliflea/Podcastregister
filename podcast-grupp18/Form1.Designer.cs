@@ -56,7 +56,7 @@ namespace podcast_grupp18
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(416, 31);
             textBox1.TabIndex = 0;
-            textBox1.TextChanged += textBox1_TextChanged;
+            
             // 
             // label1
             // 
@@ -67,7 +67,7 @@ namespace podcast_grupp18
             label1.Size = new Size(65, 25);
             label1.TabIndex = 1;
             label1.Text = "Namn ";
-            label1.Click += label1_Click;
+            
             // 
             // comboBox2
             // 
@@ -78,7 +78,7 @@ namespace podcast_grupp18
             comboBox2.Size = new Size(416, 33);
             comboBox2.TabIndex = 3;
             comboBox2.Text = "Kategori";
-            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
+            
             // 
             // filtreraKategori
             // 
@@ -152,7 +152,7 @@ namespace podcast_grupp18
             label3.Size = new Size(78, 25);
             label3.TabIndex = 15;
             label3.Text = "Kategori";
-            label3.Click += label3_Click;
+            
             // 
             // läggTillKategori
             // 
@@ -294,7 +294,7 @@ namespace podcast_grupp18
             label2.Size = new Size(67, 25);
             label2.TabIndex = 30;
             label2.Text = "Avsnitt";
-            label2.Click += label2_Click;
+            
             // 
             // Form1
             // 
@@ -329,7 +329,6 @@ namespace podcast_grupp18
             Name = "Form1";
             Text = "Form1";
             WindowState = FormWindowState.Maximized;
-            Load += Form1_Load_1;
             ResumeLayout(false);
             PerformLayout();
         }

@@ -57,7 +57,7 @@ namespace dataAccess
                 throw new InvalidOperationException("KategoriFilePath är inte korrekt inställd.");
             }
 
-            // Kontrollera och skapa katalogen om den saknas
+            
             string? directoryPath = Path.GetDirectoryName(KategoriFilePath);
             if (!string.IsNullOrEmpty(directoryPath) && !Directory.Exists(directoryPath))
             {
@@ -175,8 +175,6 @@ namespace dataAccess
                 podcast.Kategori = uppdateradPodcast.Kategori;
                 podcast.Titel = uppdateradPodcast.Namn;
                
-
-                // Spara ändringarna till fil
                 SparaTillFil();
             }
             else
