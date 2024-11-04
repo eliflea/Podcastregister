@@ -50,48 +50,48 @@ namespace podcast_grupp18
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(413, 237);
-            textBox1.Margin = new Padding(6, 8, 6, 8);
+            textBox1.Location = new Point(254, 148);
+            textBox1.Margin = new Padding(4, 5, 4, 5);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(540, 39);
+            textBox1.Size = new Size(334, 27);
             textBox1.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(413, 197);
-            label1.Margin = new Padding(6, 0, 6, 0);
+            label1.Location = new Point(254, 123);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(86, 32);
+            label1.Size = new Size(53, 20);
             label1.TabIndex = 1;
             label1.Text = "Namn ";
             // 
             // comboBox2
             // 
             comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(413, 296);
-            comboBox2.Margin = new Padding(6, 8, 6, 8);
+            comboBox2.Location = new Point(254, 185);
+            comboBox2.Margin = new Padding(4, 5, 4, 5);
             comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(540, 40);
+            comboBox2.Size = new Size(334, 28);
             comboBox2.TabIndex = 3;
             comboBox2.Text = "Kategori";
             // 
             // filtreraKategori
             // 
             filtreraKategori.FormattingEnabled = true;
-            filtreraKategori.Location = new Point(1167, 234);
-            filtreraKategori.Margin = new Padding(3, 5, 3, 5);
+            filtreraKategori.Location = new Point(718, 146);
+            filtreraKategori.Margin = new Padding(2, 3, 2, 3);
             filtreraKategori.Name = "filtreraKategori";
-            filtreraKategori.Size = new Size(241, 40);
+            filtreraKategori.Size = new Size(150, 28);
             filtreraKategori.TabIndex = 4;
             filtreraKategori.Text = "Filtrera...";
             // 
             // btnLaggTill
             // 
-            btnLaggTill.Location = new Point(413, 444);
-            btnLaggTill.Margin = new Padding(6, 8, 6, 8);
+            btnLaggTill.Location = new Point(254, 278);
+            btnLaggTill.Margin = new Padding(4, 5, 4, 5);
             btnLaggTill.Name = "btnLaggTill";
-            btnLaggTill.Size = new Size(168, 47);
+            btnLaggTill.Size = new Size(103, 29);
             btnLaggTill.TabIndex = 5;
             btnLaggTill.Text = "Lägg till";
             btnLaggTill.UseVisualStyleBackColor = true;
@@ -99,10 +99,10 @@ namespace podcast_grupp18
             // 
             // btnAndraFlode
             // 
-            btnAndraFlode.Location = new Point(764, 444);
-            btnAndraFlode.Margin = new Padding(3, 5, 3, 5);
+            btnAndraFlode.Location = new Point(470, 278);
+            btnAndraFlode.Margin = new Padding(2, 3, 2, 3);
             btnAndraFlode.Name = "btnAndraFlode";
-            btnAndraFlode.Size = new Size(156, 50);
+            btnAndraFlode.Size = new Size(96, 31);
             btnAndraFlode.TabIndex = 6;
             btnAndraFlode.Text = "Ändra";
             btnAndraFlode.UseVisualStyleBackColor = true;
@@ -110,10 +110,10 @@ namespace podcast_grupp18
             // 
             // btnAterstall
             // 
-            btnAterstall.Location = new Point(1167, 296);
-            btnAterstall.Margin = new Padding(3, 5, 3, 5);
+            btnAterstall.Location = new Point(718, 185);
+            btnAterstall.Margin = new Padding(2, 3, 2, 3);
             btnAterstall.Name = "btnAterstall";
-            btnAterstall.Size = new Size(133, 45);
+            btnAterstall.Size = new Size(82, 28);
             btnAterstall.TabIndex = 7;
             btnAterstall.Text = "Återställ";
             btnAterstall.UseVisualStyleBackColor = true;
@@ -121,10 +121,10 @@ namespace podcast_grupp18
             // 
             // taBortFlode
             // 
-            taBortFlode.Location = new Point(594, 444);
-            taBortFlode.Margin = new Padding(6, 8, 6, 8);
+            taBortFlode.Location = new Point(366, 278);
+            taBortFlode.Margin = new Padding(4, 5, 4, 5);
             taBortFlode.Name = "taBortFlode";
-            taBortFlode.Size = new Size(161, 47);
+            taBortFlode.Size = new Size(99, 29);
             taBortFlode.TabIndex = 8;
             taBortFlode.Text = "Ta bort";
             taBortFlode.UseCompatibleTextRendering = true;
@@ -133,28 +133,28 @@ namespace podcast_grupp18
             // 
             // kategoriTextBox
             // 
-            kategoriTextBox.Location = new Point(1945, 456);
-            kategoriTextBox.Margin = new Padding(6, 8, 6, 8);
+            kategoriTextBox.Location = new Point(1197, 285);
+            kategoriTextBox.Margin = new Padding(4, 5, 4, 5);
             kategoriTextBox.Name = "kategoriTextBox";
-            kategoriTextBox.Size = new Size(212, 39);
+            kategoriTextBox.Size = new Size(132, 27);
             kategoriTextBox.TabIndex = 12;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(1945, 416);
-            label3.Margin = new Padding(6, 0, 6, 0);
+            label3.Location = new Point(1197, 260);
+            label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(103, 32);
+            label3.Size = new Size(66, 20);
             label3.TabIndex = 15;
             label3.Text = "Kategori";
             // 
             // läggTillKategori
             // 
-            läggTillKategori.Location = new Point(1945, 791);
-            läggTillKategori.Margin = new Padding(6, 8, 6, 8);
+            läggTillKategori.Location = new Point(1197, 494);
+            läggTillKategori.Margin = new Padding(4, 5, 4, 5);
             läggTillKategori.Name = "läggTillKategori";
-            läggTillKategori.Size = new Size(590, 44);
+            läggTillKategori.Size = new Size(363, 28);
             läggTillKategori.TabIndex = 16;
             läggTillKategori.Text = "Lägg till";
             läggTillKategori.UseVisualStyleBackColor = true;
@@ -162,10 +162,10 @@ namespace podcast_grupp18
             // 
             // ändraKategori
             // 
-            ändraKategori.Location = new Point(1945, 850);
-            ändraKategori.Margin = new Padding(6, 8, 6, 8);
+            ändraKategori.Location = new Point(1197, 531);
+            ändraKategori.Margin = new Padding(4, 5, 4, 5);
             ändraKategori.Name = "ändraKategori";
-            ändraKategori.Size = new Size(590, 46);
+            ändraKategori.Size = new Size(363, 29);
             ändraKategori.TabIndex = 17;
             ändraKategori.Text = "Ändra";
             ändraKategori.UseVisualStyleBackColor = true;
@@ -173,10 +173,10 @@ namespace podcast_grupp18
             // 
             // taBortKategori
             // 
-            taBortKategori.Location = new Point(1945, 911);
-            taBortKategori.Margin = new Padding(6, 8, 6, 8);
+            taBortKategori.Location = new Point(1197, 569);
+            taBortKategori.Margin = new Padding(4, 5, 4, 5);
             taBortKategori.Name = "taBortKategori";
-            taBortKategori.Size = new Size(590, 56);
+            taBortKategori.Size = new Size(363, 35);
             taBortKategori.TabIndex = 18;
             taBortKategori.Text = "Ta bort";
             taBortKategori.UseVisualStyleBackColor = true;
@@ -184,20 +184,20 @@ namespace podcast_grupp18
             // 
             // txtURL
             // 
-            txtURL.Location = new Point(413, 383);
-            txtURL.Margin = new Padding(6, 8, 6, 8);
+            txtURL.Location = new Point(254, 239);
+            txtURL.Margin = new Padding(4, 5, 4, 5);
             txtURL.Name = "txtURL";
-            txtURL.Size = new Size(545, 39);
+            txtURL.Size = new Size(337, 27);
             txtURL.TabIndex = 20;
             txtURL.TextChanged += textBox3_TextChanged;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(413, 348);
-            label4.Margin = new Padding(6, 0, 6, 0);
+            label4.Location = new Point(254, 218);
+            label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new Size(60, 32);
+            label4.Size = new Size(38, 20);
             label4.TabIndex = 21;
             label4.Text = "URL:";
             // 
@@ -205,20 +205,20 @@ namespace podcast_grupp18
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Ebrima", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(1093, 56);
-            label6.Margin = new Padding(6, 0, 6, 0);
+            label6.Location = new Point(807, 39);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(251, 78);
+            label6.Size = new Size(159, 50);
             label6.TabIndex = 24;
             label6.Text = "Podcast";
             // 
             // listBoxKategori
             // 
             listBoxKategori.FormattingEnabled = true;
-            listBoxKategori.Location = new Point(1945, 513);
-            listBoxKategori.Margin = new Padding(3, 6, 3, 6);
+            listBoxKategori.Location = new Point(1197, 321);
+            listBoxKategori.Margin = new Padding(2, 4, 2, 4);
             listBoxKategori.Name = "listBoxKategori";
-            listBoxKategori.Size = new Size(588, 260);
+            listBoxKategori.Size = new Size(363, 164);
             listBoxKategori.TabIndex = 25;
             listBoxKategori.SelectedIndexChanged += listBoxKategori_SelectedIndexChanged;
             // 
@@ -226,9 +226,10 @@ namespace podcast_grupp18
             // 
             lvwPodcastDetaljer.FullRowSelect = true;
             lvwPodcastDetaljer.GridLines = true;
-            lvwPodcastDetaljer.Location = new Point(369, 513);
+            lvwPodcastDetaljer.Location = new Point(227, 321);
+            lvwPodcastDetaljer.Margin = new Padding(2, 2, 2, 2);
             lvwPodcastDetaljer.Name = "lvwPodcastDetaljer";
-            lvwPodcastDetaljer.Size = new Size(766, 1092);
+            lvwPodcastDetaljer.Size = new Size(473, 684);
             lvwPodcastDetaljer.TabIndex = 26;
             lvwPodcastDetaljer.UseCompatibleStateImageBehavior = false;
             lvwPodcastDetaljer.View = View.Details;
@@ -238,9 +239,10 @@ namespace podcast_grupp18
             // 
             lvwAvsnitt.FullRowSelect = true;
             lvwAvsnitt.GridLines = true;
-            lvwAvsnitt.Location = new Point(1167, 513);
+            lvwAvsnitt.Location = new Point(718, 321);
+            lvwAvsnitt.Margin = new Padding(2, 2, 2, 2);
             lvwAvsnitt.Name = "lvwAvsnitt";
-            lvwAvsnitt.Size = new Size(738, 649);
+            lvwAvsnitt.Size = new Size(456, 407);
             lvwAvsnitt.TabIndex = 27;
             lvwAvsnitt.UseCompatibleStateImageBehavior = false;
             lvwAvsnitt.View = View.Details;
@@ -248,19 +250,19 @@ namespace podcast_grupp18
             // 
             // lbBeskrivning
             // 
-            lbBeskrivning.Location = new Point(1167, 1188);
+            lbBeskrivning.Location = new Point(718, 742);
+            lbBeskrivning.Margin = new Padding(2, 2, 2, 2);
             lbBeskrivning.Multiline = true;
             lbBeskrivning.Name = "lbBeskrivning";
             lbBeskrivning.ScrollBars = ScrollBars.Vertical;
-            lbBeskrivning.Size = new Size(738, 419);
+            lbBeskrivning.Size = new Size(456, 263);
             lbBeskrivning.TabIndex = 28;
             // 
             // btnSpara
             // 
-            btnSpara.Location = new Point(928, 444);
-            btnSpara.Margin = new Padding(5, 5, 5, 5);
+            btnSpara.Location = new Point(571, 278);
             btnSpara.Name = "btnSpara";
-            btnSpara.Size = new Size(155, 47);
+            btnSpara.Size = new Size(95, 29);
             btnSpara.TabIndex = 29;
             btnSpara.Text = "Spara";
             btnSpara.UseVisualStyleBackColor = true;
@@ -269,20 +271,19 @@ namespace podcast_grupp18
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(1482, 466);
-            label2.Margin = new Padding(5, 0, 5, 0);
+            label2.Location = new Point(912, 291);
             label2.Name = "label2";
-            label2.Size = new Size(87, 32);
+            label2.Size = new Size(54, 20);
             label2.TabIndex = 30;
             label2.Text = "Avsnitt";
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(2501, 1344);
+            ClientSize = new Size(1819, 865);
             Controls.Add(label2);
             Controls.Add(btnSpara);
             Controls.Add(lbBeskrivning);
@@ -305,7 +306,7 @@ namespace podcast_grupp18
             Controls.Add(comboBox2);
             Controls.Add(label1);
             Controls.Add(textBox1);
-            Margin = new Padding(6, 8, 6, 8);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "Form1";
             Text = "Form1";
             WindowState = FormWindowState.Maximized;

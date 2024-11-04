@@ -23,7 +23,7 @@ namespace podcast_grupp18
             LaddaKategorier();
             filtreraKategori.SelectedIndexChanged += filtreraKategori_SelectedIndexChanged;
         }
-
+        
         private void KolumnRader(object? sender, EventArgs e)
         {
             int totalWidth = lvwPodcastDetaljer.ClientSize.Width;
