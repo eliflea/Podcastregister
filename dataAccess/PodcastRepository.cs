@@ -101,10 +101,10 @@ namespace dataAccess
         public void LaggTillPodcast(Podcast podcast)
 
         {
-            /*if (PodcastLista.Any(p => p.URL == podcast.URL))
+            if (PodcastLista.Any(p => p.URL == podcast.URL))
             {
                 throw new Exception("Angiven podcast finns redan.");
-            }*/
+            }
 
             PodcastLista.Add(podcast);
             SparaTillFil();
