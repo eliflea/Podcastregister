@@ -392,18 +392,15 @@ namespace podcast_grupp18
 
             if (selectedPodcast != null)
             {
-                // Använd den överlagrade metoden som tar en Podcast som parameter
                 FillPodcastDetails(selectedPodcast);
             }
             else
             {
-                // Om Tag inte är en Podcast, använd metoden som tar en ListViewItem
                 FillPodcastDetails(selectedItem);
             }
         }
 
         // Metodöverlagring för att fylla i detaljer
-
         private void FillPodcastDetails(ListViewItem selectedItem)
         {
             if (selectedItem == null)
@@ -424,17 +421,15 @@ namespace podcast_grupp18
                 return;
             }
 
-            // Försök att hitta motsvarande ListViewItem baserat på podcastens URL
             ListViewItem? item = lvwPodcastDetaljer.Items
                 .Cast<ListViewItem>()
                 .FirstOrDefault(i => (i.Tag as Podcast)?.URL == selectedPodcast.URL);
 
             if (item != null && item.SubItems.Count > 3)
             {
-                textBox1.Text = item.SubItems[1].Text; // Namn
-                string kategori = item.SubItems[3].Text; // Kategori
+                textBox1.Text = item.SubItems[1].Text; 
+                string kategori = item.SubItems[3].Text; 
 
-                // Om kategorin finns i combobox, välj den. Annars, lägg till och välj den.
                 int categoryIndex = comboBox2.Items.IndexOf(kategori);
                 if (categoryIndex >= 0)
                 {
