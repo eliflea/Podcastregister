@@ -155,15 +155,15 @@ namespace dataAccess
         public void TaBortPodcast(Podcast podcast)
         {
 
-            if (PodcastLista.Contains(podcast))
-            {
-                PodcastLista.Remove(podcast);
-                SparaTillFil();
-            }
-            else
+            // Kontrollera om podcasten finns i listan baserat på URL
+            var podcastToRemove = PodcastLista.FirstOrDefault(p => p.URL == podcast.URL);
+            if (podcastToRemove == null)
             {
                 throw new Exception("Podcasten finns inte i listan.");
             }
+
+            PodcastLista.Remove(podcastToRemove);
+            SparaTillFil();
         }
 
         public void UppdateraPodcast(string url, Podcast uppdateradPodcast)
