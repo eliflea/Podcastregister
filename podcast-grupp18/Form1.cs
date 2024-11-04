@@ -1,6 +1,9 @@
 ﻿using models;
 using interfaces;
+using utilities;
 using System.Text.RegularExpressions;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Policy;
 
 namespace podcast_grupp18
 {
@@ -52,29 +55,60 @@ namespace podcast_grupp18
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            //metod för att lägga till podcast
             string url = txtURL.Text.Trim();
             string kategori = comboBox2.SelectedItem?.ToString() ?? "";
             string titel = textBox1.Text.Trim();
 
             try
             {
-                await podcastService.AddPodcastAsync(url, kategori, titel);
-                var nyPodcast = await podcastService.HamtaPodcastFranRSSAsync(url);
-                if (nyPodcast != null)
+                if (ValideraFalt(url, kategori, titel))
                 {
-                    LaggTillPodcastsListView(nyPodcast, kategori);
-                }
+                    await podcastService.AddPodcastAsync(url, kategori, titel);
+                    var nyPodcast = await podcastService.HamtaPodcastFranRSSAsync(url);
+                    if (nyPodcast != null)
+                    {
+                        LaggTillPodcastsListView(nyPodcast, kategori);
+                    }
 
-                // Tar bort texten i rutorna
-                txtURL.Clear();
-                textBox1.Clear();
-                comboBox2.SelectedIndex = -1;
+                    txtURL.Clear();
+                    textBox1.Clear();
+                    comboBox2.SelectedIndex = -1;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ett fel uppstod: " + ex.Message, "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private bool ValideraFalt(string url, string kategori, string titel)
+        {
+            if (!utilities.Validator.IsValidUrl(url))
+            {
+                MessageBox.Show("URL: Vänligen ange giltig URL.", "Ogiltig URL", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false; 
+            }
+
+            if (!utilities.Validator.IsNotEmpty(url))
+            {
+                MessageBox.Show("URL-fältet får inte vara tomt.", "Tom URL", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false; 
+            }
+
+            if (!utilities.Validator.IsNotEmpty(kategori))
+            {
+                MessageBox.Show("Vänligen välj en giltig kategori.", "Ogiltig kategori", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false; 
+            }
+
+            if (!utilities.Validator.IsNotEmpty(titel))
+            {
+                MessageBox.Show("Namn får inte vara tomt.", "Tom titel", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false; 
+            }
+            return true; 
+        }
+
 
         private void LaggTillPodcastsListView(Podcast nyPodcast, string kategori)
         {
@@ -366,8 +400,6 @@ namespace podcast_grupp18
             comboBox2.SelectedItem = selectedItem.SubItems[3].Text;
 
         }
-
-
 
         private void btnSpara_Click_1(object sender, EventArgs e)
         {
