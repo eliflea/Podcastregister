@@ -300,7 +300,9 @@ namespace podcast_grupp18
                         {
                             podcastService.TaBortPodcast(valdPodcast); 
                             lvwPodcastDetaljer.Items.Remove(lvwPodcastDetaljer.SelectedItems[0]); 
-                            lvwAvsnitt.Items.Clear(); 
+                            lvwAvsnitt.Items.Clear();
+                            lbBeskrivning.Clear();
+
                             LoadPodcasts();
                             MessageBox.Show($"Podcasten '{valdPodcast.Namn}' har tagits bort.");
                         }
