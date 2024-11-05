@@ -178,30 +178,56 @@ namespace podcast_grupp18
         {
             if (listBoxKategori.SelectedItem != null)
             {
-                string? valdKategori = listBoxKategori.SelectedItem?.ToString();
+                string? valdKategori = listBoxKategori.SelectedItem.ToString();
 
                 if (valdKategori != null)
                 {
-                   
                     DialogResult result = MessageBox.Show(
                         $"Är du säker på att du vill ta bort kategorin '{valdKategori}'?",
                         "Bekräfta borttagning",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Warning);
 
-                    // Om användaren klickar på "Ja"
                     if (result == DialogResult.Yes)
                     {
                         try
                         {
+                            // Kontrollera om någon podcast använder kategorin
+                            var affectedPodcasts = podcastService.HamtaAllaPodcast()
+                                .Where(p => p.Kategori == valdKategori).ToList();
+
+                            if (affectedPodcasts.Any())
+                            {
+                                // Fråga användaren om att välja en ny kategori
+                                string nyKategori = comboBox2.SelectedItem?.ToString() ?? "";
+
+                                // Om ingen ny kategori är vald, visa ett meddelande
+                                if (string.IsNullOrWhiteSpace(nyKategori))
+                                {
+                                    MessageBox.Show("Vänligen ändra kategorin i poddcast listan först.", "Ingen ny kategori vald", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                // Uppdatera podcasts med den nya kategorin
+                                foreach (var podcast in affectedPodcasts)
+                                {
+                                    podcast.Kategori = nyKategori;
+                                    podcastService.UppdateraPodcast(podcast.URL, podcast);
+                                }
+                            }
+
+                            // Ta bort kategorin
                             podcastService.TaBortKategori(valdKategori);
                             listBoxKategori.Items.Remove(valdKategori);
                             comboBox2.Items.Remove(valdKategori);
                             filtreraKategori.Items.Remove(valdKategori);
+
+                            // Ladda om podcasts
+                            LoadPodcasts();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message);
+                            MessageBox.Show($"Ett fel uppstod: {ex.Message}");
                         }
                     }
                 }
@@ -210,11 +236,8 @@ namespace podcast_grupp18
                     MessageBox.Show("Vänligen välj en kategori att ta bort.");
                 }
             }
-            else
-            {
-                MessageBox.Show("Vänligen välj en kategori att ta bort.");
-            }
         }
+
 
         private void ändraKategori_Click(object sender, EventArgs e)
         {
