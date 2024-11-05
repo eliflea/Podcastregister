@@ -198,10 +198,8 @@ namespace podcast_grupp18
 
                             if (affectedPodcasts.Any())
                             {
-                                // Fråga användaren om att välja en ny kategori
                                 string nyKategori = comboBox2.SelectedItem?.ToString() ?? "";
 
-                                // Om ingen ny kategori är vald, visa ett meddelande
                                 if (string.IsNullOrWhiteSpace(nyKategori))
                                 {
                                     MessageBox.Show("Vänligen ändra kategorin i poddcast listan först.", "Ingen ny kategori vald", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -216,13 +214,11 @@ namespace podcast_grupp18
                                 }
                             }
 
-                            // Ta bort kategorin
                             podcastService.TaBortKategori(valdKategori);
                             listBoxKategori.Items.Remove(valdKategori);
                             comboBox2.Items.Remove(valdKategori);
                             filtreraKategori.Items.Remove(valdKategori);
 
-                            // Ladda om podcasts
                             LoadPodcasts();
                         }
                         catch (Exception ex)
@@ -241,13 +237,10 @@ namespace podcast_grupp18
 
         private void ändraKategori_Click(object sender, EventArgs e)
         {
-
             // Kontrollera om något objekt är valt
             if (listBoxKategori.SelectedItem != null)
             {
-                
                 int selectedIndex = listBoxKategori.SelectedIndex;
-                
                 string nyKategori = kategoriTextBox.Text.Trim();
 
                 if (!utilities.Validator.IsValidCategory(nyKategori))
@@ -263,10 +256,11 @@ namespace podcast_grupp18
                     return;
                 }
 
-                
+                string gammalKategori = listBoxKategori.SelectedItem.ToString();
+
                 try
                 {
-                    podcastService.AndraKategori(selectedIndex, nyKategori); 
+                    podcastService.AndraKategori(selectedIndex, nyKategori);
                 }
                 catch (Exception ex)
                 {
@@ -274,18 +268,31 @@ namespace podcast_grupp18
                     return;
                 }
 
-                
+                // Uppdatera ListBox, ComboBox och filtrera kategori
                 listBoxKategori.Items[selectedIndex] = nyKategori;
                 comboBox2.Items[selectedIndex] = nyKategori;
                 filtreraKategori.Items[selectedIndex] = nyKategori;
 
-                
+                foreach (ListViewItem item in lvwPodcastDetaljer.Items)
+                {
+                    if (item.SubItems[3].Text == gammalKategori)
+                    {
+                        Podcast podcast = item.Tag as Podcast;
+                        if (podcast != null)
+                        {
+                            podcast.Kategori = nyKategori;
+                            // Uppdatera kategori i ListView
+                            item.SubItems[3].Text = nyKategori; 
+                        }
+                    }
+                }
+
                 kategoriTextBox.Clear();
             }
             else
             {
                 MessageBox.Show("Vänligen välj en kategori att ändra.");
-           } 
+            }
         }
 
         private void listBoxKategori_SelectedIndexChanged(object sender, EventArgs e)
