@@ -31,11 +31,11 @@ namespace business
 
                     foreach (SyndicationItem item in podcastFeed.Items)
                     {
-                        var title = item.Title.Text;
+                        var title = item.Title?.Text ?? "Inget namn"; 
                         var episodeUrl = item.Links.FirstOrDefault()?.Uri.ToString();
-                        var description = item.Summary.Text;
+                        var description = item.Summary?.Text ?? "Ingen beskrivning";
 
-                        if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(episodeUrl) && !string.IsNullOrEmpty(description))
+                    if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(episodeUrl) && !string.IsNullOrEmpty(description))
                         {
                             podcast.AddAvsnitt(title, episodeUrl, description);
                         }
