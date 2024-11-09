@@ -204,6 +204,7 @@ namespace podcast_grupp18
                                 {
                                     MessageBox.Show("Vänligen ändra kategorin i poddcast listan först.", "Ingen ny kategori vald", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     return;
+
                                 }
 
                                 // Uppdatera podcasts med den nya kategorin
@@ -218,6 +219,7 @@ namespace podcast_grupp18
                             listBoxKategori.Items.Remove(valdKategori);
                             comboBox2.Items.Remove(valdKategori);
                             filtreraKategori.Items.Remove(valdKategori);
+                            kategoriTextBox.Clear();
 
                             LoadPodcasts();
                         }
