@@ -24,7 +24,7 @@ namespace business
 
                     if (podcastFeed == null || string.IsNullOrEmpty(podcastFeed.Title?.Text))
                     {
-                        throw new Exception("Podcast kunde inte hämtas.");
+                        throw new CustomException("Podcast kunde inte hämtas.");
                     }
 
                     var podcast = new Podcast(podcastFeed.Title.Text, URL);
@@ -43,9 +43,9 @@ namespace business
 
                     return podcast;
                 }
-                catch (Exception ex)
+                catch (CustomException ex)
                 {
-                    throw new Exception($"Fel vid hämtning: {ex.Message}", ex);
+                    throw new CustomException($"Fel vid hämtning: {ex.Message}", ex);
                 }
             }
 
@@ -53,14 +53,14 @@ namespace business
         {
             if (!utilities.Validator.IsValidUrl(url))
             {
-                throw new ArgumentException("Ogiltig URL.");
+                throw new CustomException("Ogiltig URL.");
             }
 
             Podcast podcast = await HamtaPodcastFranRSSAsync(url);
 
             if (podcast == null || !podcast.HamtaAvsnitt().Any())
             {
-                throw new Exception("Podcasten kunde inte laddas.");
+                throw new CustomException("Podcasten kunde inte laddas.");
             }
 
             podcast.Kategori = kategori;

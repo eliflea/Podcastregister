@@ -1,6 +1,7 @@
 ﻿using System.Xml.Serialization;
 using models;
 using interfaces;
+using utilities;
 
 namespace dataAccess
 {
@@ -30,7 +31,7 @@ namespace dataAccess
             }
             else
             {
-                throw new Exception("Kategorin finns redan.");
+                throw new CustomException("Kategorin finns redan.");
             }
         }
 
@@ -43,7 +44,7 @@ namespace dataAccess
             }
             else
             {
-                throw new Exception("Kategorin finns inte.");
+                throw new CustomException("Kategorin finns inte.");
             }
         }
 
@@ -54,7 +55,7 @@ namespace dataAccess
             // Kontrollera om KategoriFilePath är korrekt definierad
             if (string.IsNullOrEmpty(KategoriFilePath))
             {
-                throw new InvalidOperationException("KategoriFilePath är inte korrekt inställd.");
+                throw new CustomException("KategoriFilePath är inte korrekt inställd.");
             }
 
             
@@ -91,7 +92,7 @@ namespace dataAccess
         {
             if (index < 0 || index >= KategoriLista.Count)
             {
-                throw new ArgumentOutOfRangeException("Indexet är utanför intervallet.");
+                throw new CustomException("Indexet är utanför intervallet.");
             }
 
             KategoriLista[index] = nyKategori;
@@ -103,7 +104,7 @@ namespace dataAccess
         {
             if (PodcastLista.Any(p => p.URL == podcast.URL))
             {
-                throw new Exception("Angiven podcast finns redan.");
+                throw new CustomException("Angiven podcast finns redan.");
             }
 
             PodcastLista.Add(podcast);
@@ -143,7 +144,7 @@ namespace dataAccess
             var podcastToRemove = PodcastLista.FirstOrDefault(p => p.URL == podcast.URL);
             if (podcastToRemove == null)
             {
-                throw new Exception("Podcasten finns inte i listan.");
+                throw new CustomException("Podcasten finns inte i listan.");
             }
 
             PodcastLista.Remove(podcastToRemove);
@@ -163,7 +164,7 @@ namespace dataAccess
             }
             else
             {
-                throw new Exception("Podcasten kunde inte hittas i listan.");
+                throw new CustomException("Podcasten kunde inte hittas i listan.");
             }
         }
     }

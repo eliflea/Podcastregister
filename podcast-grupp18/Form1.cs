@@ -76,7 +76,7 @@ namespace podcast_grupp18
                     comboBox2.SelectedIndex = -1;
                 }
             }
-            catch (Exception ex)
+            catch (CustomException ex)
             {
                 MessageBox.Show("Ett fel uppstod: " + ex.Message, "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -168,7 +168,7 @@ namespace podcast_grupp18
                 filtreraKategori.Items.Add(nyKategori);
                 kategoriTextBox.Clear();
             }
-            catch (Exception ex)
+            catch (CustomException ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -223,7 +223,7 @@ namespace podcast_grupp18
 
                             LoadPodcasts();
                         }
-                        catch (Exception ex)
+                        catch (CustomException ex)
                         {
                             MessageBox.Show($"Ett fel uppstod: {ex.Message}");
                         }
@@ -264,7 +264,7 @@ namespace podcast_grupp18
                 {
                     podcastService.AndraKategori(selectedIndex, nyKategori);
                 }
-                catch (Exception ex)
+                catch (CustomException ex)
                 {
                     MessageBox.Show($"Ett fel uppstod: {ex.Message}", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -371,7 +371,7 @@ namespace podcast_grupp18
                             LoadPodcasts();
                             MessageBox.Show($"Podcasten '{valdPodcast.Namn}' har tagits bort.");
                         }
-                        catch (Exception ex)
+                        catch (CustomException ex)
                         {
                             MessageBox.Show($"Ett fel uppstod: {ex.Message}", "Fel", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
